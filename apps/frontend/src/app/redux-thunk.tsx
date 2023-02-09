@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getElements, ElementData } from '../api';
+import { getElements } from '../api';
 import { ApiError } from '../api/apiError';
+import { ElementData } from '../api/apiTypes';
 
 export const ReduxThunkTable = () => {
   const { data, error } = useElements();

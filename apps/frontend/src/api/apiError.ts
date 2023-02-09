@@ -35,7 +35,7 @@ export class ApiError extends Error {
 export const throwApiError = (error: AxiosError<any>) => {
   const statusCode = error.response?.status || 500;
   const errorCode = error.response?.data?.internalErrCode || 500;
-  const message = error.response?.data?.msg || 'Error: Internal Server Error.';
+  const message = error.response?.data?.errorMessage || 'Error: Internal Server Error.';
 
   throw new ApiError({ message, errorCode, statusCode });
 };
