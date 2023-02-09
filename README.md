@@ -19,3 +19,40 @@ Run `npx nx connect-to-nx-cloud` to enable [remote caching](https://nx.app) and 
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+## Roadmap 🛣️🎯
+
+- [ ] `getElements` api endpoint on frontend
+  - [ ] tests
+  - [ ] mocks with msw
+  - [ ] expand api with filtering and sorting
+- [ ] Fetching data and displaying it
+  - [ ] Using redux
+  - [ ] Using react-query
+  - [ ] Using swr
+- [ ] `deleteElement` api endpoint on frontend
+  - [ ] tests
+  - [ ] mocks with msw
+- [ ] Deleting element from ui using redux
+  - [ ] Using redux
+  - [ ] Using react-query
+  - [ ] Using swr
+- [ ] `createElement` api endpoint on frontend
+  - [ ] tests
+  - [ ] mocks with msw
+- [ ] Creating element from ui using redux
+  - [ ] Using redux
+  - [ ] Using react-query
+  - [ ] Using swr
+- [ ] `updateElement` api endpoint on frontend
+  - [ ] tests
+  - [ ] mocks with msw
+- [ ] Updating element from ui using redux
+  - [ ] Using redux
+  - [ ] Using react-query
+  - [ ] Using swr
+- [ ] investigate usage od `zod` in api
+- [ ] investigate usage of `redux-hook-form` on update/create forms
+- [ ] implement simple backend api with sqlite db
+- [ ] create ui component library
+- [ ] investigate integration tests with cypress/playwright instead of rtl
