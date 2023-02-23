@@ -5,8 +5,14 @@ export function App() {
   return (
     <AppShell>
       <Sidebar>
+        <Link to={`useEffect`}>
+          <Item>Naive useEffect</Item>
+        </Link>
         <Link to={`redux-thunk`}>
           <Item>Redux + Thunk</Item>
+        </Link>
+        <Link to={`createAsyncThunk`}>
+          <Item>Redux + createAsyncThunk</Item>
         </Link>
         <Link to={`react-query`}>
           <Item>react-query</Item>

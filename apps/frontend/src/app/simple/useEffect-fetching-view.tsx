@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getElements } from '../api';
-import { ApiError } from '../api/apiError';
-import { ElementData } from '../api/apiTypes';
+import { getElements } from '../../api';
+import { ApiError } from '../../api/apiError';
+import { ElementData } from '../../api/apiTypes';
 
 export const UseEffectFetchingView = () => {
   const { data, error } = useElements();

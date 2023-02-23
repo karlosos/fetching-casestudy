@@ -1,15 +1,37 @@
 import { rest } from 'msw';
 import { createApiUrl } from '../../createApi';
-import { simulateDelay } from '../../mockUtils';
+import { simulateDelay, throwApiErrorWithGivenProbability } from '../../mockUtils';
 import { GET_ELEMENTS_URL } from '../getElementsApi';
 
 import { GetElementsResponseApi } from '../serverApiTypes';
 
-export const getElementsResponseHandler = rest.get<any, any, GetElementsResponseApi>(
+export const getElementsBrowserMockHandler = rest.get<any, any, GetElementsResponseApi>(
   createApiUrl(GET_ELEMENTS_URL),
   async (req, res, ctx) => {
     await simulateDelay(500, 1000);
+    await throwApiErrorWithGivenProbability({probability: 0.5});
 
+    const limit = req.url.searchParams.get('limit');
+    const page = req.url.searchParams.get('page');
+    const elements = elementsMock;
+
+    const response: GetElementsResponseApi = {
+      elements: elements,
+      pageInfo: {
+        limit: parseInt(limit!),
+        page: parseInt(page!),
+        numberOfElements: elements.length,
+        totalElements: elements.length,
+        totalPages: 1,
+      },
+    };
+    return res(ctx.status(200), ctx.json(response));
+  }
+);
+
+export const getElementsResponseHandler = rest.get<any, any, GetElementsResponseApi>(
+  createApiUrl(GET_ELEMENTS_URL),
+  async (req, res, ctx) => {
     const limit = req.url.searchParams.get('limit');
     const page = req.url.searchParams.get('page');
     const elements = elementsMock;

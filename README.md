@@ -30,28 +30,36 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
   - [ ] expand api with filtering and sorting
 - [ ] Fetching data and displaying it
   - [x] Using simple useEffect with hook
-  - [ ] Using redux
+  - [x] Using redux thunk
+  - [ ] Using redux createAsyncThunk 
   - [ ] Using react-query
   - [ ] Using swr
+  - [ ] Testing each view for loading data
 - [ ] `deleteElement` api endpoint on frontend
   - [ ] tests
   - [ ] mocks with msw
 - [ ] Deleting element from ui using redux
-  - [ ] Using redux
+  - [ ] Using simple useEffect with hook
+  - [ ] Using redux thunk
+  - [ ] Using redux createAsyncThunk 
   - [ ] Using react-query
   - [ ] Using swr
 - [ ] `createElement` api endpoint on frontend
   - [ ] tests
   - [ ] mocks with msw
 - [ ] Creating element from ui using redux
-  - [ ] Using redux
+  - [ ] Using simple useEffect with hook
+  - [ ] Using redux thunk
+  - [ ] Using redux createAsyncThunk 
   - [ ] Using react-query
   - [ ] Using swr
 - [ ] `updateElement` api endpoint on frontend
   - [ ] tests
   - [ ] mocks with msw
 - [ ] Updating element from ui using redux
-  - [ ] Using redux
+  - [ ] Using simple useEffect with hook
+  - [ ] Using redux thunk
+  - [ ] Using redux createAsyncThunk 
   - [ ] Using react-query
   - [ ] Using swr
 - [ ] investigate usage od `zod` in api

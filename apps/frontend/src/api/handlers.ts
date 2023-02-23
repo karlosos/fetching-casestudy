@@ -1,5 +1,5 @@
-import { getElementsResponseHandler } from "./getElements/__mocks__/getElementsHandlers";
+import { getElementsBrowserMockHandler } from "./getElements/__mocks__/getElementsHandlers";
 
 export const handlers = [
-    getElementsResponseHandler,
+    getElementsBrowserMockHandler,
 ]
