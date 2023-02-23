@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './app/app';
-import { ReduxThunkTable } from './app/redux-thunk';
+import { UseEffectFetchingView } from './app/useEffect-fetching-view';
 
 const router = createBrowserRouter([
   {
@@ -13,12 +13,16 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <ReduxThunkTable />,
+        element: <UseEffectFetchingView />,
       },
       {
         index: true,
+        path: 'use-effect',
+        element: <UseEffectFetchingView />,
+      },
+      {
         path: 'redux-thunk',
-        element: <ReduxThunkTable />,
+        element: <UseEffectFetchingView />,
       },
       {
         path: '/react-query',

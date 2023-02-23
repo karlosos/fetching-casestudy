@@ -3,7 +3,7 @@ import { getElements } from '../api';
 import { ApiError } from '../api/apiError';
 import { ElementData } from '../api/apiTypes';
 
-export const ReduxThunkTable = () => {
+export const UseEffectFetchingView = () => {
   const { data, error } = useElements();
 
   if (error) {

@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "npx nx run-many --target=serve --all",
+    "build": "npx nx run-many --target=build --all",
     "format": "npx nx format"
   },
   "private": true,

@@ -20,13 +20,16 @@ Run `npx nx connect-to-nx-cloud` to enable [remote caching](https://nx.app) and 
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
 
+## Mocks
+
 ## Roadmap 🛣️🎯
 
 - [ ] `getElements` api endpoint on frontend
-  - [ ] tests
-  - [ ] mocks with msw
+  - [x] tests
+  - [x] mocks with msw
   - [ ] expand api with filtering and sorting
 - [ ] Fetching data and displaying it
+  - [x] Using simple useEffect with hook
   - [ ] Using redux
   - [ ] Using react-query
   - [ ] Using swr
