@@ -9,6 +9,7 @@ import { ThunkFetchingView } from './app/thunk-based/thunk-fetching-view';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import { AsyncThunkFetchingView } from './app/createAsyncThunk/createAsyncThunk-fetching-view';
+import { RtkQueryView } from './app/rtk-query/rtk-query-view';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/react-query',
-        element: <div>React query</div>,
+        element: <RtkQueryView />,
       },
       {
         path: '/swr',
