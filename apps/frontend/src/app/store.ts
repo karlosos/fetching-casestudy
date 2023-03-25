@@ -1,9 +1,11 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
+import { elementsCreateAsyncThunkFetchingReducer } from './createAsyncThunk/slice'
 import { elementsThunkFetchingReducer } from './thunk-based/slice'
 
 export const store = configureStore({
   reducer: {
     elementsThunkFetching: elementsThunkFetchingReducer,
+    elementsCreateAsyncThunkFetching: elementsCreateAsyncThunkFetchingReducer,
   },
 })
 

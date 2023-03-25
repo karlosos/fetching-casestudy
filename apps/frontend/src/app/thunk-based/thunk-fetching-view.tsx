@@ -14,9 +14,10 @@ export const ThunkFetchingView = () => {
   }, [dispatch])
 
   const data = useAppSelector((state: RootState) => state.elementsThunkFetching.elements);
+  const fetchingStatus = useAppSelector((state: RootState) => state.elementsThunkFetching.fetchingElementsStatus);
   const error = useAppSelector((state: RootState) => state.elementsThunkFetching.fetchingElementsError);
 
-  if (error) {
+  if (error && fetchingStatus === 'failed') {
     return (
       <div>
         {error.message} ({error.statusCode})
@@ -24,7 +25,7 @@ export const ThunkFetchingView = () => {
     );
   }
 
-  if (!data) {
+  if (!data || fetchingStatus === 'ongoing') {
     return <div>Loading</div>;
   }
 

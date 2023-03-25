@@ -1,15 +1,24 @@
 import { rest } from 'msw';
+import { ErrorResponse } from '../../apiError';
 import { createApiUrl } from '../../createApi';
-import { simulateDelay, throwApiErrorWithGivenProbability } from '../../mockUtils';
+import { shouldThrowError, simulateDelay } from '../../mockUtils';
 import { GET_ELEMENTS_URL } from '../getElementsApi';
 
 import { GetElementsResponseApi } from '../serverApiTypes';
 
-export const getElementsBrowserMockHandler = rest.get<any, any, GetElementsResponseApi>(
+export const getElementsBrowserMockHandler = rest.get<any, any, GetElementsResponseApi | ErrorResponse>(
   createApiUrl(GET_ELEMENTS_URL),
   async (req, res, ctx) => {
     await simulateDelay(500, 1000);
-    await throwApiErrorWithGivenProbability({probability: 0.5});
+    if (shouldThrowError()) {
+      return res(
+        ctx.status(403),
+        ctx.json({
+          errorMessage: 'Error message from the backend',
+          internalErrCode: 89392,
+        })
+      );
+    }
 
     const limit = req.url.searchParams.get('limit');
     const page = req.url.searchParams.get('page');
@@ -50,14 +59,14 @@ export const getElementsResponseHandler = rest.get<any, any, GetElementsResponse
   }
 );
 
-export const getElementsErrorHandler = rest.get(
-  createApiUrl(GET_ELEMENTS_URL),
-  (_req, res, ctx) => {
-    return res.once(ctx.status(500), ctx.json({
-        errorMessage: 'Database problem',
-    }));
-  },
-);
+export const getElementsErrorHandler = rest.get(createApiUrl(GET_ELEMENTS_URL), (_req, res, ctx) => {
+  return res.once(
+    ctx.status(500),
+    ctx.json({
+      errorMessage: 'Database problem',
+    })
+  );
+});
 
 const elementsMock = [
   {

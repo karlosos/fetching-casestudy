@@ -32,6 +32,24 @@ export class ApiError extends Error {
   }
 }
 
+// Because redux doesn't like to have non-serializable data
+export type ApiErrorSerialized = {
+  message: string;
+  errorCode: number | string;
+  rootCause?: string;
+  statusCode: number;
+}
+
+export const serializeApiError = (error: ApiError) => {
+  const apiErrorSerialized: ApiErrorSerialized = {
+    message: error.message,
+    errorCode: error.errorCode,
+    rootCause: error.rootCause,
+    statusCode: error.statusCode,
+  }
+  return apiErrorSerialized; 
+}
+
 export const throwApiError = (error: AxiosError<any>) => {
   const statusCode = error.response?.status || 500;
   const errorCode = error.response?.data?.internalErrCode || 500;
@@ -39,3 +57,8 @@ export const throwApiError = (error: AxiosError<any>) => {
 
   throw new ApiError({ message, errorCode, statusCode });
 };
+
+export type ErrorResponse = {
+  internalErrCode?: number,
+  errorMessage?: string,
+}

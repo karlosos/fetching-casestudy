@@ -8,6 +8,7 @@ import { UseEffectFetchingView } from './app/simple/useEffect-fetching-view';
 import { ThunkFetchingView } from './app/thunk-based/thunk-fetching-view';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
+import { AsyncThunkFetchingView } from './app/createAsyncThunk/createAsyncThunk-fetching-view';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: '/redux-thunk',
         element: <ThunkFetchingView />,
+      },
+      {
+        path: '/createAsyncThunk',
+        element: <AsyncThunkFetchingView />,
       },
       {
         path: '/react-query',

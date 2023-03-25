@@ -3,19 +3,9 @@ export const simulateDelay = async (from = 30, to = 60) => {
   await new Promise((res) => setTimeout(res, timeout));
 };
 
-export const throwApiErrorWithGivenProbability = ({
-  probability = 0.5,
-  errorObject,
-}: {
-  probability?: number;
-  errorObject?: { [key: string]: any };
-} = {}) => {
+export const shouldThrowError = ({ probability = 0.5 } = {}) => {
   if (Math.random() < probability) {
-    throw Object.assign(new Error(), {
-      detail: 'Mock Error',
-      status: 500,
-      title: 'Error',
-      ...errorObject,
-    });
+    return true;
   }
-};
+  return false;
+}

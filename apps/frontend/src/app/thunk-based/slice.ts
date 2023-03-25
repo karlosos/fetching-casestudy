@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getElements } from '../../api';
-import { ApiError } from '../../api/apiError';
+import { ApiError, ApiErrorSerialized, serializeApiError } from '../../api/apiError';
 import { ElementData, GetElementsRequest, GetElementsResponse } from '../../api/apiTypes';
 import { AppThunk } from '../store';
 
 interface ElementsState {
-  elements: ElementData[] | null;
-  totalElements: number | null;
+  elements: ElementData[] | undefined;
+  totalElements: number | undefined;
   fetchingElementsStatus: 'idle' | 'ongoing' | 'success' | 'failed';
-  fetchingElementsError: ApiError | null,
+  fetchingElementsError: ApiErrorSerialized | undefined,
 }
 
 const initialState: ElementsState = {
-  elements: null,
-  totalElements: null,
+  elements: undefined,
+  totalElements: undefined,
   fetchingElementsStatus: 'idle',
-  fetchingElementsError: null,
+  fetchingElementsError: undefined,
 };
 
 export const elementsThunkFetchSlice = createSlice({
@@ -24,14 +24,14 @@ export const elementsThunkFetchSlice = createSlice({
   reducers: {
     fetchingElementsStarted: (state) => {
       state.fetchingElementsStatus = 'ongoing';
-      state.fetchingElementsError = null;
+      state.fetchingElementsError = undefined;
     },
     fetchingElementsSuccess: (state, action: PayloadAction<GetElementsResponse>) => {
       state.totalElements = action.payload.totalElements;
       state.elements = action.payload.elements;
       state.fetchingElementsStatus = 'success';
     },
-    fetchingElementsFailure: (state, action: PayloadAction<ApiError>) => {
+    fetchingElementsFailure: (state, action: PayloadAction<ApiErrorSerialized>) => {
       state.fetchingElementsError = action.payload;
       state.fetchingElementsStatus = 'failed';
     },
@@ -59,6 +59,6 @@ export const fetchElementsThunk =
       dispatch(fetchingElementsSuccess(data));
     } catch (e: any) {
       const error = e as ApiError;
-      dispatch(fetchingElementsFailure(error));
+      dispatch(fetchingElementsFailure(serializeApiError(error)));
     }
   };
