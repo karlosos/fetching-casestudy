@@ -2,6 +2,7 @@ import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import { elementsCreateAsyncThunkFetchingReducer } from './createAsyncThunk/slice'
 import { elementsThunkFetchingReducer } from './thunk-based/slice'
 import { rtkQueryApi } from './rtk-query/api'
+import { elementsRtkQueryReducer } from './rtk-query/slice'
 
 // TODO: change reducer names. We are not only fetching but doing other actions too
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     elementsThunkFetching: elementsThunkFetchingReducer,
     elementsCreateAsyncThunkFetching: elementsCreateAsyncThunkFetchingReducer,
     [rtkQueryApi.reducerPath]: rtkQueryApi.reducer,
+    elementsRtkQuery: elementsRtkQueryReducer,
   },
   middleware: (gDM) => gDM().concat(rtkQueryApi.middleware),
 })

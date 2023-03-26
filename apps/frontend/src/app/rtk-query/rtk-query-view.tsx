@@ -1,7 +1,12 @@
-import { useGetElementsQuery } from './api';
+import { useAppSelector } from '../hooks';
+import { RootState } from '../store';
+import { useDeleteElementMutation, useGetElementsQuery } from './api';
 
 export const RtkQueryView = () => {
   const { data, isLoading, error, refetch, isFetching } = useGetElementsQuery();
+  const [deleteElement, _result] = useDeleteElementMutation();
+
+  const elementIdsBeingDeleted = useAppSelector((state: RootState) => state.elementsRtkQuery.elementIdsBeingDeleted);
 
   if (error && !isFetching) {
     return (
@@ -21,12 +26,15 @@ export const RtkQueryView = () => {
 
   return (
     <div>
-        <div>
-          <button onClick={refetch}>Refresh</button>
-        </div>
+      <div>
+        <button onClick={refetch}>Refresh</button>
+      </div>
       {data.elements.map((element) => (
         <div key={element.dn}>
           {element.dn} {element.deviceType}
+          <button onClick={() => deleteElement(element.id)} disabled={elementIdsBeingDeleted[element.id] === true}>
+            Delete
+          </button>
         </div>
       ))}
     </div>
