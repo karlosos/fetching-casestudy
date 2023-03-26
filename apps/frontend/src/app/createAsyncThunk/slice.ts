@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getElements } from '../../api';
+import { getElements as getElementsApi, deleteElement as deleteElementApi } from '../../api';
 import { ApiError, ApiErrorSerialized, serializeApiError } from '../../api/apiError';
 import { ElementData, GetElementsRequest } from '../../api/apiTypes';
 import { AppDispatch, RootState } from '../store';
@@ -7,8 +7,12 @@ import { AppDispatch, RootState } from '../store';
 type RequestState = 'idle' | 'pending' | 'fulfilled' | 'rejected';
 
 interface ElementsState {
-  elements: ElementData[] | undefined;
+  elements: (ElementData & { isDeleting?: boolean })[] | undefined;
   totalElements: number | undefined;
+  // instead of having different data with deleting status I could
+  // change elements state to accept `isDeleting` field like:
+  // elements: (ElementData & { isDeleting?: boolean })[] | undefined;
+  elementIdsBeingDeleted: { [elementId: string]: boolean };
   fetchingElementsStatus: RequestState;
   fetchingElementsError: ApiErrorSerialized | undefined;
 }
@@ -16,6 +20,7 @@ interface ElementsState {
 const initialState: ElementsState = {
   elements: undefined,
   totalElements: undefined,
+  elementIdsBeingDeleted: {},
   fetchingElementsStatus: 'idle',
   fetchingElementsError: undefined,
 };
@@ -25,6 +30,7 @@ export const elementsCreateAsyncThunkFetchSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // Fetching
     builder.addCase(fetchElements.pending, (state) => {
       state.fetchingElementsStatus = 'pending';
     });
@@ -37,6 +43,22 @@ export const elementsCreateAsyncThunkFetchSlice = createSlice({
     builder.addCase(fetchElements.rejected, (state, action) => {
       state.fetchingElementsStatus = 'rejected';
       state.fetchingElementsError = action.payload;
+    });
+    // Deleting
+    builder.addCase(deleteElement.pending, (state, action) => {
+      const elementId = action.meta.arg;
+      state.elementIdsBeingDeleted[elementId] = true;
+    });
+    builder.addCase(deleteElement.fulfilled, (state, action) => {
+      const elementId = action.payload;
+      state.elements = state.elements?.filter((element) => element.id !== elementId);
+      state.elementIdsBeingDeleted[elementId] = false;
+    });
+    builder.addCase(deleteElement.rejected, (state, action) => {
+      // TODO: why payload can be undefined?
+      if (action.payload?.elementId) {
+        state.elementIdsBeingDeleted[action.payload.elementId] = false;
+      }
     });
   },
 });
@@ -56,7 +78,7 @@ export const fetchElements = createAppAsyncThunk(
   'fetchElements',
   async (request: GetElementsRequest, { rejectWithValue }) => {
     try {
-      const data = await getElements(request);
+      const data = await getElementsApi(request);
       return data;
     } catch (err) {
       const error = err as ApiError;
@@ -67,6 +89,31 @@ export const fetchElements = createAppAsyncThunk(
     condition: (_, { getState }) => {
       const { fetchingElementsStatus } = getState().elementsCreateAsyncThunkFetching;
       if (fetchingElementsStatus === 'pending') {
+        return false;
+      }
+    },
+  }
+);
+
+export const deleteElement = createAppAsyncThunk<
+  string, // the type with which deleteElement.fullfiled will be called
+  string, // the type of request to the thunk
+  { dispatch: AppDispatch; state: RootState; rejectValue: { elementId: string; error: ApiErrorSerialized } }
+>(
+  'deleteElement',
+  async (elementId, { rejectWithValue }) => {
+    try {
+      await deleteElementApi({elementId: elementId});
+      return elementId;
+    } catch (err) {
+      const error = err as ApiError;
+      return rejectWithValue({ elementId: elementId, error: serializeApiError(error) });
+    }
+  },
+  {
+    condition: (elementId, { getState }) => {
+      const elementIdsBeingDeleted = getState().elementsCreateAsyncThunkFetching.elementIdsBeingDeleted;
+      if (elementIdsBeingDeleted[elementId] === true) {
         return false;
       }
     },

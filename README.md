@@ -45,15 +45,15 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
   - [x] Using swr
   - [x] refetching data
   - [ ] Testing each view for loading data
-- [ ] `deleteElement` api endpoint on frontend
-  - [ ] tests
-  - [ ] mocks with msw
-- [ ] Deleting element from ui using redux
-  - [ ] Using simple useEffect with hook
+- [x] `deleteElement` api endpoint on frontend
+  - [x] tests
+  - [x] mocks with msw
+- [x] Deleting element from ui using redux
+  - [x] Using simple useEffect with hook
   - [ ] Using redux thunk
-  - [ ] Using redux createAsyncThunk 
+  - [x] Using redux createAsyncThunk 
   - [ ] using redux rtk-query
-  - [ ] Using tanstack-query
+  - [x] Using tanstack-query
   - [ ] Using swr
 - [ ] `createElement` api endpoint on frontend
   - [ ] tests

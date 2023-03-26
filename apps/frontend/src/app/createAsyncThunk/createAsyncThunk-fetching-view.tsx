@@ -1,23 +1,28 @@
-
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { RootState } from "../store";
-import { fetchElements } from "./slice";
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { RootState } from '../store';
+import { deleteElement, fetchElements } from './slice';
 
 export const AsyncThunkFetchingView = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchElements({ size: 50, startIndex: 0 }));
-  }, [dispatch])
+  }, [dispatch]);
 
   const refetch = () => {
     dispatch(fetchElements({ size: 50, startIndex: 0 }));
-  }
+  };
 
   const data = useAppSelector((state: RootState) => state.elementsCreateAsyncThunkFetching.elements);
-  const fetchingStatus = useAppSelector((state: RootState) => state.elementsCreateAsyncThunkFetching.fetchingElementsStatus);
+  const fetchingStatus = useAppSelector(
+    (state: RootState) => state.elementsCreateAsyncThunkFetching.fetchingElementsStatus
+  );
   const error = useAppSelector((state: RootState) => state.elementsCreateAsyncThunkFetching.fetchingElementsError);
+
+  const elementIdsBeingDeleted = useAppSelector(
+    (state: RootState) => state.elementsCreateAsyncThunkFetching.elementIdsBeingDeleted
+  );
 
   if (error && fetchingStatus === 'rejected') {
     return (
@@ -36,12 +41,18 @@ export const AsyncThunkFetchingView = () => {
 
   return (
     <div>
-        <div>
-          <button onClick={refetch}>Refresh</button>
-        </div>
+      <div>
+        <button onClick={refetch}>Refresh</button>
+      </div>
       {data.map((element) => (
         <div key={element.dn}>
-          {element.dn} {element.deviceType}
+          {element.dn} {element.deviceType}{' '}
+          <button
+            onClick={() => dispatch(deleteElement(element.id))}
+            disabled={elementIdsBeingDeleted[element.id] === true}
+          >
+            Delete
+          </button>
         </div>
       ))}
     </div>

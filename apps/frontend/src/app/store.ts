@@ -3,6 +3,7 @@ import { elementsCreateAsyncThunkFetchingReducer } from './createAsyncThunk/slic
 import { elementsThunkFetchingReducer } from './thunk-based/slice'
 import { rtkQueryApi } from './rtk-query/api'
 
+// TODO: change reducer names. We are not only fetching but doing other actions too
 export const store = configureStore({
   reducer: {
     elementsThunkFetching: elementsThunkFetchingReducer,
