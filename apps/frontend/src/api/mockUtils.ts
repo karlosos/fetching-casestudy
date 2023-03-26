@@ -3,7 +3,7 @@ export const simulateDelay = async (from = 30, to = 60) => {
   await new Promise((res) => setTimeout(res, timeout));
 };
 
-export const shouldThrowError = ({ probability = 0.5 } = {}) => {
+export const shouldThrowError = ({ probability = 0.25 } = {}) => {
   if (Math.random() < probability) {
     return true;
   }

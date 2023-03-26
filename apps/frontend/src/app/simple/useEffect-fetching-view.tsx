@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react';
-import { getElements } from '../../api';
+import { deleteElement, getElements } from '../../api';
 import { ApiError } from '../../api/apiError';
 import { ElementData } from '../../api/apiTypes';
 
 export const UseEffectFetchingView = () => {
   const { data, error, refetch, isLoading } = useElements();
+
+  const handleDeleteElement = async (elementId: string) => {
+      await deleteElement({
+        elementId: elementId,
+      });
+      refetch();
+  }
 
   if (error) {
     return (
@@ -28,7 +35,7 @@ export const UseEffectFetchingView = () => {
       </div>
       {data.map((element) => (
         <div key={element.dn}>
-          {element.dn} {element.deviceType}
+          {element.dn} {element.deviceType} <button onClick={() => handleDeleteElement(element.id)}>Delete</button>
         </div>
       ))}
     </div>
@@ -51,6 +58,7 @@ const useElements = () => {
       setElements(response.elements);
       setStatus('success');
     } catch (e) {
+      console.log('>> error', e)
       const error = e as ApiError;
       setError(error);
       setStatus('failed');

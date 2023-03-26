@@ -68,8 +68,9 @@ export const getElementsErrorHandler = rest.get(createApiUrl(GET_ELEMENTS_URL), 
   );
 });
 
-const elementsMock = [
+export const elementsMock = [
   {
+    id: '1',
     dn: '125342.T-MOBILE.COM',
     deviceType: 'eNodeB',
     options: {
@@ -79,6 +80,7 @@ const elementsMock = [
     },
   },
   {
+    id: '2',
     dn: 'BTS-ALFA.T-MOBILE.COM',
     deviceType: 'eNodeB',
     options: {
@@ -88,6 +90,7 @@ const elementsMock = [
     },
   },
   {
+    id: '3',
     dn: 'BTS-123.ORANGE.COM',
     deviceType: 'eNodeB',
     options: {

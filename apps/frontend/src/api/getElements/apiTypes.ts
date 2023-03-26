@@ -9,6 +9,7 @@ export type GetElementsResponse = {
 };
 
 export type ElementData = {
+  id: string;
   dn: string;
   latitude: string;
   longitude: string;

@@ -9,6 +9,7 @@ export type GetElementsResponseApi = {
 };
 
 export type ElementDataApi = {
+  id: string;
   dn: string;
   deviceType: string;
   options: {

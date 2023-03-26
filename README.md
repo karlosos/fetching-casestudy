@@ -27,6 +27,8 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
 - I will name `tanstack-query`, `rtk-query` and `swr` as modern data fetching in the notes.
 - I am not sure if it's correct way of refetching with *modern data fetching* libraries. Probably it should be loaded in the background without showing loading spinner.
 - To have proper comparison I would need to disable retrying on failure for *modern data fetching*. Or at least unify them. `tanstack-query` has the best options out of the box in my opinion. I like incremental time for retrying.
+- Error handling with current `api` directory is not great. When getting data from the backend that has incorrect format and can't be mapped we get `ApiError` without any details. It's hard to debug. Maybe `zod` would be a good solution for this problem? Or alternatively we could wrap `mapper` with try catch?
+  - Edit `getElements` mock to see the problem.
 
 ## Roadmap 🛣️🎯
 

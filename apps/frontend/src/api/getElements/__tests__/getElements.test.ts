@@ -17,10 +17,11 @@ describe('getElements Endpoint', () => {
     const result = await getElements(request);
 
     // THEN
+    // TODO: check if correct url (correct params)
     expect(result).toEqual(expectedResponse);
   });
 
-  it('SHOULD return ApiError WHEN 5xx error on calling getSingleCollection', async () => {
+  it('SHOULD return ApiError WHEN 5xx error on calling getElements', async () => {
     // GIVEN
     server.use(getElementsErrorHandler);
     const request: GetElementsRequest = {
@@ -46,6 +47,7 @@ describe('getElements Endpoint', () => {
 const expectedResponse = {
   elements: [
     {
+      id: '1',
       deviceType: 'eNodeB',
       dn: '125342.T-MOBILE.COM',
       ip: '129.120.120.0',
@@ -53,6 +55,7 @@ const expectedResponse = {
       longitude: '12313421.123123',
     },
     {
+      id: '2',
       deviceType: 'eNodeB',
       dn: 'BTS-ALFA.T-MOBILE.COM',
       ip: '129.120.120.0',
@@ -60,6 +63,7 @@ const expectedResponse = {
       longitude: '12313421.123123',
     },
     {
+      id: '3',
       deviceType: 'eNodeB',
       dn: 'BTS-123.ORANGE.COM',
       ip: '129.120.120.0',

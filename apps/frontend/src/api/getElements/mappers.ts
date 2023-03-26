@@ -21,6 +21,7 @@ export const mapResponse = (response: GetElementsResponseApi): GetElementsRespon
 
 const mapElement = (elementDataApi: ElementDataApi): ElementData => {
   return {
+    id: elementDataApi.id,
     dn: elementDataApi.dn,
     deviceType: elementDataApi.deviceType as DeviceType,
     ip: elementDataApi.options.ip,
