@@ -31,9 +31,10 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
 - [ ] Fetching data and displaying it
   - [x] Using simple useEffect with hook
   - [x] Using redux thunk
-  - [ ] Using redux createAsyncThunk 
-  - [ ] Using react-query
-  - [ ] Using swr
+  - [x] Using redux createAsyncThunk 
+  - [x] Using rtk-query
+  - [x] Using react-query
+  - [x] Using swr
   - [ ] Testing each view for loading data
 - [ ] `deleteElement` api endpoint on frontend
   - [ ] tests

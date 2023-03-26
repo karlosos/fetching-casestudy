@@ -12,7 +12,7 @@ export const getElementsBrowserMockHandler = rest.get<any, any, GetElementsRespo
     await simulateDelay(500, 1000);
     if (shouldThrowError()) {
       return res(
-        ctx.status(403),
+        ctx.status(429),
         ctx.json({
           errorMessage: 'Error message from the backend',
           internalErrCode: 89392,

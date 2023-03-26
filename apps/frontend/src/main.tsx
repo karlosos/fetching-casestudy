@@ -11,6 +11,7 @@ import { store } from './app/store';
 import { AsyncThunkFetchingView } from './app/createAsyncThunk/createAsyncThunk-fetching-view';
 import { RtkQueryView } from './app/rtk-query/rtk-query-view';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SwrView } from './app/swr/swr-view';
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/swr',
-        element: <div>SWR</div>,
+        element: <SwrView />
       },
     ],
   },
