@@ -12,6 +12,7 @@ import { AsyncThunkFetchingView } from './app/createAsyncThunk/createAsyncThunk-
 import { RtkQueryView } from './app/rtk-query/rtk-query-view';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SwrView } from './app/swr/swr-view';
+import { TanstackQueryView } from './app/tanstack-query/tanstack-query-view';
 
 const router = createBrowserRouter([
   {
@@ -36,8 +37,12 @@ const router = createBrowserRouter([
         element: <AsyncThunkFetchingView />,
       },
       {
-        path: '/react-query',
+        path: '/rtk-query',
         element: <RtkQueryView />,
+      },
+      {
+        path: '/tanstack-query',
+        element: <TanstackQueryView />,
       },
       {
         path: '/swr',

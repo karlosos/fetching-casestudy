@@ -22,6 +22,12 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
 
 ## Mocks
 
+## Notes 📋️
+
+- I will name `tanstack-query`, `rtk-query` and `swr` as modern data fetching in the notes.
+- I am not sure if it's correct way of refetching with *modern data fetching* libraries. Probably it should be loaded in the background without showing loading spinner.
+- To have proper comparison I would need to disable retrying on failure for *modern data fetching*. Or at least unify them. `tanstack-query` has the best options out of the box in my opinion. I like incremental time for retrying.
+
 ## Roadmap 🛣️🎯
 
 - [ ] `getElements` api endpoint on frontend
@@ -32,9 +38,10 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
   - [x] Using simple useEffect with hook
   - [x] Using redux thunk
   - [x] Using redux createAsyncThunk 
-  - [x] Using rtk-query
-  - [x] Using react-query
+  - [x] Using redux rtk-query
+  - [x] Using tanstack-query
   - [x] Using swr
+  - [x] refetching data
   - [ ] Testing each view for loading data
 - [ ] `deleteElement` api endpoint on frontend
   - [ ] tests
@@ -43,7 +50,8 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
   - [ ] Using simple useEffect with hook
   - [ ] Using redux thunk
   - [ ] Using redux createAsyncThunk 
-  - [ ] Using react-query
+  - [ ] using redux rtk-query
+  - [ ] Using tanstack-query
   - [ ] Using swr
 - [ ] `createElement` api endpoint on frontend
   - [ ] tests
@@ -52,7 +60,8 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
   - [ ] Using simple useEffect with hook
   - [ ] Using redux thunk
   - [ ] Using redux createAsyncThunk 
-  - [ ] Using react-query
+  - [ ] using redux rtk-query
+  - [ ] Using tanstack-query
   - [ ] Using swr
 - [ ] `updateElement` api endpoint on frontend
   - [ ] tests
@@ -61,7 +70,8 @@ Visit the [Nx Documentation](https://nx.dev) to learn more.
   - [ ] Using simple useEffect with hook
   - [ ] Using redux thunk
   - [ ] Using redux createAsyncThunk 
-  - [ ] Using react-query
+  - [ ] using redux rtk-query
+  - [ ] Using tanstack-query
   - [ ] Using swr
 - [ ] investigate usage od `zod` in api
 - [ ] investigate usage of `redux-hook-form` on update/create forms

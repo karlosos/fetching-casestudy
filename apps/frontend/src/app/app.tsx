@@ -14,8 +14,11 @@ export function App() {
         <Link to={`createAsyncThunk`}>
           <Item>Redux + createAsyncThunk</Item>
         </Link>
-        <Link to={`react-query`}>
-          <Item>react-query</Item>
+        <Link to={`rtk-query`}>
+          <Item>Redux + RTK Query</Item>
+        </Link>
+        <Link to={`tanstack-query`}>
+          <Item>tanstack-query</Item>
         </Link>
         <Link to={`swr`}>
           <Item>swr</Item>

@@ -1,17 +1,28 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { RootState } from "../store";
-import { fetchElementsThunk } from "./slice";
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { RootState } from '../store';
+import { fetchElementsThunk } from './slice';
 
 export const ThunkFetchingView = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchElementsThunk({
-      size: 50,
-      startIndex: 0,
-    }))
-  }, [dispatch])
+    dispatch(
+      fetchElementsThunk({
+        size: 50,
+        startIndex: 0,
+      })
+    );
+  }, [dispatch]);
+
+  const refetch = () => {
+    dispatch(
+      fetchElementsThunk({
+        size: 50,
+        startIndex: 0,
+      })
+    );
+  };
 
   const data = useAppSelector((state: RootState) => state.elementsThunkFetching.elements);
   const fetchingStatus = useAppSelector((state: RootState) => state.elementsThunkFetching.fetchingElementsStatus);
@@ -21,6 +32,9 @@ export const ThunkFetchingView = () => {
     return (
       <div>
         {error.message} ({error.statusCode})
+        <div>
+          <button onClick={refetch}>Refresh</button>
+        </div>
       </div>
     );
   }
@@ -31,6 +45,9 @@ export const ThunkFetchingView = () => {
 
   return (
     <div>
+      <div>
+        <button onClick={refetch}>Refresh</button>
+      </div>
       {data.map((element) => (
         <div key={element.dn}>
           {element.dn} {element.deviceType}

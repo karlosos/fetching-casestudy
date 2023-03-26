@@ -11,6 +11,10 @@ export const AsyncThunkFetchingView = () => {
     dispatch(fetchElements({ size: 50, startIndex: 0 }));
   }, [dispatch])
 
+  const refetch = () => {
+    dispatch(fetchElements({ size: 50, startIndex: 0 }));
+  }
+
   const data = useAppSelector((state: RootState) => state.elementsCreateAsyncThunkFetching.elements);
   const fetchingStatus = useAppSelector((state: RootState) => state.elementsCreateAsyncThunkFetching.fetchingElementsStatus);
   const error = useAppSelector((state: RootState) => state.elementsCreateAsyncThunkFetching.fetchingElementsError);
@@ -19,6 +23,9 @@ export const AsyncThunkFetchingView = () => {
     return (
       <div>
         {error.message} ({error.statusCode})
+        <div>
+          <button onClick={refetch}>Refresh</button>
+        </div>
       </div>
     );
   }
@@ -29,6 +36,9 @@ export const AsyncThunkFetchingView = () => {
 
   return (
     <div>
+        <div>
+          <button onClick={refetch}>Refresh</button>
+        </div>
       {data.map((element) => (
         <div key={element.dn}>
           {element.dn} {element.deviceType}
