@@ -26,17 +26,14 @@ export const UseEffectFetchingView = () => {
       <div>
         <button onClick={refetch}>Refresh</button>
       </div>
-      {data.map((element) => {
-        const isElementBeingDeleted = elementIdsBeingDeleted[element.id] === true;
-        return (
-          <div key={element.dn}>
-            {element.dn} {element.deviceType}{' '}
-            <button onClick={() => deleteElement(element.id)} disabled={isElementBeingDeleted}>
-              Delete
-            </button>
-          </div>
-        );
-      })}
+      {data.map((element) => (
+        <div key={element.dn}>
+          {element.dn} {element.deviceType}{' '}
+          <button onClick={() => deleteElement(element.id)} disabled={elementIdsBeingDeleted[element.id] === true}>
+            Delete
+          </button>
+        </div>
+      ))}
     </div>
   );
 };

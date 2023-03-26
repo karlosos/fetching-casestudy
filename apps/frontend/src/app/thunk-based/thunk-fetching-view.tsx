@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { RootState } from '../store';
-import { fetchElementsThunk } from './slice';
+import { deleteElement, fetchElements } from './slice';
 
 export const ThunkFetchingView = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(
-      fetchElementsThunk({
+      fetchElements({
         size: 50,
         startIndex: 0,
       })
@@ -17,7 +17,7 @@ export const ThunkFetchingView = () => {
 
   const refetch = () => {
     dispatch(
-      fetchElementsThunk({
+      fetchElements({
         size: 50,
         startIndex: 0,
       })
@@ -27,6 +27,9 @@ export const ThunkFetchingView = () => {
   const data = useAppSelector((state: RootState) => state.elementsThunkFetching.elements);
   const fetchingStatus = useAppSelector((state: RootState) => state.elementsThunkFetching.fetchingElementsStatus);
   const error = useAppSelector((state: RootState) => state.elementsThunkFetching.fetchingElementsError);
+  const elementIdsBeingDeleted = useAppSelector(
+    (state: RootState) => state.elementsThunkFetching.elementIdsBeingDeleted
+  );
 
   if (error && fetchingStatus === 'failed') {
     return (
@@ -51,6 +54,12 @@ export const ThunkFetchingView = () => {
       {data.map((element) => (
         <div key={element.dn}>
           {element.dn} {element.deviceType}
+          <button
+            onClick={() => dispatch(deleteElement(element.id))}
+            disabled={elementIdsBeingDeleted[element.id] === true}
+          >
+            Delete
+          </button>
         </div>
       ))}
     </div>
