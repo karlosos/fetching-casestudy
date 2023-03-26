@@ -1,17 +1,10 @@
 import { useEffect, useState } from 'react';
-import { deleteElement, getElements } from '../../api';
+import { deleteElement as deleteElementApi, getElements } from '../../api';
 import { ApiError } from '../../api/apiError';
 import { ElementData } from '../../api/apiTypes';
 
 export const UseEffectFetchingView = () => {
-  const { data, error, refetch, isLoading } = useElements();
-
-  const handleDeleteElement = async (elementId: string) => {
-      await deleteElement({
-        elementId: elementId,
-      });
-      refetch();
-  }
+  const { data, error, refetch, isLoading, deleteElement, elementIdsBeingDeleted } = useElements();
 
   if (error) {
     return (
@@ -33,11 +26,17 @@ export const UseEffectFetchingView = () => {
       <div>
         <button onClick={refetch}>Refresh</button>
       </div>
-      {data.map((element) => (
-        <div key={element.dn}>
-          {element.dn} {element.deviceType} <button onClick={() => handleDeleteElement(element.id)}>Delete</button>
-        </div>
-      ))}
+      {data.map((element) => {
+        const isElementBeingDeleted = elementIdsBeingDeleted[element.id] === true;
+        return (
+          <div key={element.dn}>
+            {element.dn} {element.deviceType}{' '}
+            <button onClick={() => deleteElement(element.id)} disabled={isElementBeingDeleted}>
+              Delete
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -58,7 +57,6 @@ const useElements = () => {
       setElements(response.elements);
       setStatus('success');
     } catch (e) {
-      console.log('>> error', e)
       const error = e as ApiError;
       setError(error);
       setStatus('failed');
@@ -73,10 +71,30 @@ const useElements = () => {
     fetchElements();
   };
 
+  const [elementIdsBeingDeleted, setElementIdsBeingDeleted] = useState<{ [id: string]: boolean }>({});
+
+  const deleteElement = async (elementId: string) => {
+    setElementIdsBeingDeleted((state) => ({ ...state, [elementId]: true }));
+    deleteElementApi({
+      elementId: elementId,
+    })
+      .then(() => {
+        setElements((elements) => elements?.filter((element) => element.id !== elementId));
+      })
+      .catch(() => {
+        console.log(">> couldn't delete", elementId);
+      })
+      .finally(() => {
+        setElementIdsBeingDeleted((state) => ({ ...state, [elementId]: false }));
+      });
+  };
+
   return {
     data: elements,
-    error: error,
-    refetch: refetch,
+    error,
+    refetch,
     isLoading: status === 'loading',
+    deleteElement,
+    elementIdsBeingDeleted,
   };
 };
