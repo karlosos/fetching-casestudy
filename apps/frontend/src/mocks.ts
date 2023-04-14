@@ -5,6 +5,7 @@ import { handlers } from './api/handlers';
 let browserMocksEnabled = false;
 
 // Uncomment to enable browser mocks
+// Comment out to disable browser mocks
 browserMocksEnabled = true;
 
 if (browserMocksEnabled) {
