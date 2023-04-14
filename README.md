@@ -40,11 +40,11 @@
   - [x] mocks with msw
 - [x] Deleting element from ui using redux
   - [x] Using simple useEffect with hook
-  - [ ] Using redux thunk
+  - [x] Using redux thunk
   - [x] Using redux createAsyncThunk
-  - [ ] using redux rtk-query
+  - [x] using redux rtk-query
   - [x] Using tanstack-query
-  - [ ] Using swr
+  - [x] Using swr
 - [ ] `createElement` api endpoint on frontend
   - [ ] tests
   - [ ] mocks with msw
@@ -65,6 +65,7 @@
   - [ ] using redux rtk-query
   - [ ] Using tanstack-query
   - [ ] Using swr
+- [ ] add total count to the table views
 - [ ] investigate usage od `zod` in api
 - [ ] investigate usage of `redux-hook-form` on update/create forms
 - [ ] implement simple backend api with sqlite db

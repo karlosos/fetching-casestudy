@@ -1,12 +1,38 @@
-import useSWR, { useSWRConfig } from 'swr';
-import { getElements } from '../../api';
+import useSWR from 'swr';
+import { deleteElement, getElements } from '../../api';
+import { ElementData } from '../../api/apiTypes';
+import { useState } from 'react';
 
 export const SwrView = () => {
-  const { mutate } = useSWRConfig();
-  const { isLoading, error, data, isValidating } = useSWR('elements', () => getElements({ size: 50, startIndex: 0 }));
+  const { isLoading, error, data, isValidating, mutate } = useSWR('elements', () =>
+    getElements({ size: 50, startIndex: 0 })
+  );
+
+  const [elementIdsBeingDeleted, setElementIdsBeingDeleted] = useState<{ [id: string]: boolean }>({});
 
   const refetch = () => {
-    mutate('elements');
+    mutate();
+  };
+
+  const handleDeleteElement = async (elementToBeRemoved: ElementData) => {
+    if (!data) {
+      return;
+    }
+
+    try {
+      setElementIdsBeingDeleted((state) => ({ ...state, [elementToBeRemoved.id]: true }));
+      await deleteElement({ elementId: elementToBeRemoved.id });
+      mutate(
+        {
+          totalElements: data?.totalElements - 1,
+          elements: data?.elements.filter((element) => element.id !== elementToBeRemoved.id),
+        },
+        { revalidate: false }
+      );
+    } catch (e) {
+      console.log(">> couldn't delete", elementToBeRemoved);
+    }
+    setElementIdsBeingDeleted((state) => ({ ...state, [elementToBeRemoved.id]: false }));
   };
 
   if (error && !isValidating) {
@@ -33,6 +59,9 @@ export const SwrView = () => {
       {data.elements.map((element) => (
         <div key={element.dn}>
           {element.dn} {element.deviceType}
+          <button onClick={() => handleDeleteElement(element)} disabled={elementIdsBeingDeleted[element.id] === true}>
+            Delete
+          </button>
         </div>
       ))}
     </div>

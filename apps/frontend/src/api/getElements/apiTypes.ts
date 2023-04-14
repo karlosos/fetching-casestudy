@@ -8,6 +8,8 @@ export type GetElementsResponse = {
   totalElements: number;
 };
 
+// TODO: ElementData name is not the best. What is the "Data"? 
+//       Rename it to just "Element"
 export type ElementData = {
   id: string;
   dn: string;

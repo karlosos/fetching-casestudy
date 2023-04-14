@@ -21,7 +21,7 @@ export const TanstackQueryView = () => {
     onSuccess: (_data, variables, _context) => {
       const oldData = queryClient.getQueryData(['elements']) as GetElementsResponse;
       const newElements = oldData.elements.filter((element) => element.id !== variables.elementId);
-      queryClient.setQueryData(['elements'], { ...oldData, elements: newElements });
+      queryClient.setQueryData(['elements'], { totalElements: oldData.totalElements-1, elements: newElements });
     },
     onError: (_error, variables, _context) => {
       console.log(">> couldn't delete", variables);
