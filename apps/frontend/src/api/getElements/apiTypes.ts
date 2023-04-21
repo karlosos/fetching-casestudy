@@ -4,13 +4,11 @@ export type GetElementsRequest = {
 };
 
 export type GetElementsResponse = {
-  elements: ElementData[];
+  elements: Element[];
   totalElements: number;
 };
 
-// TODO: ElementData name is not the best. What is the "Data"? 
-//       Rename it to just "Element"
-export type ElementData = {
+export type Element = {
   id: string;
   dn: string;
   latitude: string;

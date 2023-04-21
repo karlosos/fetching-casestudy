@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import { deleteElement, getElements } from '../../api';
-import { ElementData } from '../../api/apiTypes';
+import { Element } from '../../api/apiTypes';
 import { useState } from 'react';
 
 export const SwrView = () => {
@@ -14,7 +14,7 @@ export const SwrView = () => {
     mutate();
   };
 
-  const handleDeleteElement = async (elementToBeRemoved: ElementData) => {
+  const handleDeleteElement = async (elementToBeRemoved: Element) => {
     if (!data) {
       return;
     }

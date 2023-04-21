@@ -1,5 +1,5 @@
-import { DeviceType, ElementData, GetElementsRequest, GetElementsResponse } from './apiTypes';
-import { ElementDataApi, GetElementsRequestApi, GetElementsResponseApi } from './serverApiTypes';
+import { DeviceType, Element, GetElementsRequest, GetElementsResponse } from './apiTypes';
+import { ElementApi, GetElementsRequestApi, GetElementsResponseApi } from './serverApiTypes';
 
 export const mapRequest = (request: GetElementsRequest): GetElementsRequestApi => {
   return {
@@ -14,18 +14,18 @@ const calculatePage = (size: number, startIndex: number) => {
 
 export const mapResponse = (response: GetElementsResponseApi): GetElementsResponse => {
   return {
-    elements: response.elements.map((elementDataApi) => mapElement(elementDataApi)),
+    elements: response.elements.map((elementApi) => mapElementApiToElement(elementApi)),
     totalElements: response.pageInfo.totalElements,
   };
 };
 
-const mapElement = (elementDataApi: ElementDataApi): ElementData => {
+export const mapElementApiToElement = (elementApi: ElementApi): Element => {
   return {
-    id: elementDataApi.id,
-    dn: elementDataApi.dn,
-    deviceType: elementDataApi.deviceType as DeviceType,
-    ip: elementDataApi.options.ip,
-    latitude: elementDataApi.options.latitude,
-    longitude: elementDataApi.options.longitude,
+    id: elementApi.id,
+    dn: elementApi.dn,
+    deviceType: elementApi.deviceType as DeviceType,
+    ip: elementApi.options.ip,
+    latitude: elementApi.options.latitude,
+    longitude: elementApi.options.longitude,
   };
 };

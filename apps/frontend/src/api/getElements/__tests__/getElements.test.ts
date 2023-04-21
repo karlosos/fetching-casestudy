@@ -1,13 +1,16 @@
-import { server } from '../../mockServer';
+import { server, waitForRequest } from '../../mockServer';
 import { getElementsErrorHandler, getElementsResponseHandler } from '../__mocks__/getElementsHandlers';
 import { getElements } from '../getElements';
 import { GetElementsRequest } from '../apiTypes';
 import { ApiError } from '../../apiError';
+import { GET_ELEMENTS_URL } from '../getElementsApi';
+import { createApiUrl } from '../../createApi';
 
 describe('getElements Endpoint', () => {
   it('WHEN getElements is called THEN return correct response', async () => {
     // GIVEN
     server.use(getElementsResponseHandler);
+    const pendingRequest = waitForRequest('GET', createApiUrl(GET_ELEMENTS_URL));
     const request: GetElementsRequest = {
       size: 10,
       startIndex: 0,
@@ -15,9 +18,10 @@ describe('getElements Endpoint', () => {
 
     // WHEN
     const result = await getElements(request);
+    const apiRequest = await pendingRequest;
 
     // THEN
-    // TODO: check if correct url (correct params)
+    expect(apiRequest.url.toString()).toEqual('http://localhost:3333/api/v1/elements?limit=10&page=0');
     expect(result).toEqual(expectedResponse);
   });
 

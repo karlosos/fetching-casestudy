@@ -19,6 +19,7 @@
 - Error handling with current `api` directory is not great. When getting data from the backend that has incorrect format and can't be mapped we get `ApiError` without any details. It's hard to debug. Maybe `zod` would be a good solution for this problem? Or alternatively we could wrap `mapper` with try catch?
   - Edit `getElements` mock to see the problem.
 - The `elementIdsBeingDeleted` object could be merged with regular `data` object so that each `element` has `isBeingDeleted: boolean` value.
+- Problem with api that when there is some error (even on client side) then there will be `Internal Server Error` error. Hard to debug. For example if there is an error on mapper side. Investigate if `zod` would solve the issue.
 
 ## Roadmap 🛣️🎯
 
@@ -45,9 +46,9 @@
   - [x] using redux rtk-query
   - [x] Using tanstack-query
   - [x] Using swr
-- [ ] `createElement` api endpoint on frontend
-  - [ ] tests
-  - [ ] mocks with msw
+- [x] `createElement` api endpoint on frontend
+  - [x] tests
+  - [x] mocks with msw
 - [ ] Creating element from ui using redux
   - [ ] Using simple useEffect with hook
   - [ ] Using redux thunk
@@ -70,4 +71,4 @@
 - [ ] investigate usage of `redux-hook-form` on update/create forms
 - [ ] implement simple backend api with sqlite db
 - [ ] create ui component library
-- [ ] investigate integration tests with cypress/playwright instead of rtl
+- [ ] investigate integration tests with cypress/playwright in addition to rtl

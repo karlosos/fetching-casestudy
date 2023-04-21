@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { deleteElement as deleteElementApi, getElements } from '../../api';
 import { ApiError } from '../../api/apiError';
-import { ElementData } from '../../api/apiTypes';
+import { Element } from '../../api/apiTypes';
 
 export const UseEffectFetchingView = () => {
   const { data, error, refetch, isLoading, deleteElement, elementIdsBeingDeleted } = useElements();
@@ -39,7 +39,7 @@ export const UseEffectFetchingView = () => {
 };
 
 const useElements = () => {
-  const [elements, setElements] = useState<ElementData[]>();
+  const [elements, setElements] = useState<Element[]>();
   const [error, setError] = useState<ApiError>();
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'failed'>('idle');
 

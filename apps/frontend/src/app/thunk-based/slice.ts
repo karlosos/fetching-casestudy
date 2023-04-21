@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getElements as getElementsApi, deleteElement as deleteElementApi } from '../../api';
 import { ApiError, ApiErrorSerialized, serializeApiError } from '../../api/apiError';
-import { ElementData, GetElementsRequest, GetElementsResponse } from '../../api/apiTypes';
+import { Element, GetElementsRequest, GetElementsResponse } from '../../api/apiTypes';
 import { AppThunk } from '../store';
 
 interface ElementsState {
-  elements: ElementData[] | undefined;
+  elements: Element[] | undefined;
   totalElements: number | undefined;
   elementIdsBeingDeleted: { [elementId: string]: boolean };
   fetchingElementsStatus: 'idle' | 'ongoing' | 'success' | 'failed';

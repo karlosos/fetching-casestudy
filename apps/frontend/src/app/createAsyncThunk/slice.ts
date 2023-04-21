@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getElements as getElementsApi, deleteElement as deleteElementApi } from '../../api';
 import { ApiError, ApiErrorSerialized, serializeApiError } from '../../api/apiError';
-import { ElementData, GetElementsRequest } from '../../api/apiTypes';
+import { Element, GetElementsRequest } from '../../api/apiTypes';
 import { AppDispatch, RootState } from '../store';
 
 type RequestState = 'idle' | 'pending' | 'fulfilled' | 'rejected';
 
 interface ElementsState {
-  elements: (ElementData & { isDeleting?: boolean })[] | undefined;
+  elements: (Element & { isDeleting?: boolean })[] | undefined;
   totalElements: number | undefined;
   // instead of having different data with deleting status I could
   // change elements state to accept `isDeleting` field like:
-  // elements: (ElementData & { isDeleting?: boolean })[] | undefined;
+  // elements: (Element & { isDeleting?: boolean })[] | undefined;
   elementIdsBeingDeleted: { [elementId: string]: boolean };
   fetchingElementsStatus: RequestState;
   fetchingElementsError: ApiErrorSerialized | undefined;

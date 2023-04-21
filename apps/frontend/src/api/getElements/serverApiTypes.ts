@@ -4,11 +4,11 @@ export type GetElementsRequestApi = {
 };
 
 export type GetElementsResponseApi = {
-  elements: ElementDataApi[];
+  elements: ElementApi[];
   pageInfo: PageInfo;
 };
 
-export type ElementDataApi = {
+export type ElementApi = {
   id: string;
   dn: string;
   deviceType: string;
