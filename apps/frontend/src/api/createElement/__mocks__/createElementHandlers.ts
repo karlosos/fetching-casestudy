@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 import { ErrorResponse } from '../../apiError';
 import { createApiUrl } from '../../createApi';
+import { elementsMock } from '../../getElements/__mocks__/getElementsHandlers';
 import { shouldThrowError, simulateDelay } from '../../mockUtils';
 import { CREATE_ELEMENT_URL } from '../createElementApi';
 
@@ -27,7 +28,7 @@ export const createElementBrowserMockHandler = rest.post<
   const { dn, deviceType, options } = await req.json();
 
   currentId = currentId + 1;
-  const response: CreateElementResponseApi = {
+  const newElement: CreateElementResponseApi = {
     id: currentId.toString(),
     dn: dn,
     deviceType: deviceType,
@@ -37,7 +38,9 @@ export const createElementBrowserMockHandler = rest.post<
       longitude: options.longitude,
     },
   };
-  return res(ctx.status(200), ctx.json(response));
+  elementsMock.push(newElement);
+
+  return res(ctx.status(200), ctx.json(newElement));
 });
 
 export const createElementResponseHandler = rest.post<

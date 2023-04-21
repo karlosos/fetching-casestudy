@@ -10,7 +10,7 @@ export const getElementsBrowserMockHandler = rest.get<any, any, GetElementsRespo
   createApiUrl(GET_ELEMENTS_URL),
   async (req, res, ctx) => {
     await simulateDelay(500, 1000);
-    if (shouldThrowError()) {
+    if (shouldThrowError({probability: 0.1})) {
       return res(
         ctx.status(429),
         ctx.json({

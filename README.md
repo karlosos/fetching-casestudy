@@ -6,6 +6,7 @@
   - frontend is configured to use mocks (with msw) by default. See `apps/frontend/src/mocks.ts`
 - run `npx nx serve backend` to run the backend server.
 - `npx nx graph --watch` to see a diagram of the dependencies of the project
+- run `npx ns test frontend` to run frontend tests
 
 ## Resources 📚️
 

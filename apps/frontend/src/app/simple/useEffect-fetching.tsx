@@ -3,15 +3,18 @@ import { deleteElement as deleteElementApi, getElements } from '../../api';
 import { ApiError } from '../../api/apiError';
 import { Element } from '../../api/apiTypes';
 
-export const UseEffectFetchingView = () => {
-  const { data, error, refetch, isLoading, deleteElement, elementIdsBeingDeleted } = useElements();
+type Props = {
+  elements: ReturnType<typeof useElements>;
+};
 
+export const UseEffectFetching: React.FC<Props> = ({ elements }) => {
+  const { data, error, refetch, isLoading, deleteElement, elementIdsBeingDeleted } = elements;
   if (error) {
     return (
       <div>
         {error.message} ({error.statusCode})
         <div>
-          <button onClick={refetch}>Refresh</button>
+          <button onClick={() => refetch()}>Refresh</button>
         </div>
       </div>
     );
@@ -24,7 +27,7 @@ export const UseEffectFetchingView = () => {
   return (
     <div>
       <div>
-        <button onClick={refetch}>Refresh</button>
+        <button onClick={() => refetch()}>Refresh</button>
       </div>
       {data.map((element) => (
         <div key={element.dn}>
@@ -38,25 +41,29 @@ export const UseEffectFetchingView = () => {
   );
 };
 
-const useElements = () => {
+type FetchOptions = {
+  inForeground?: boolean;
+};
+
+export const useElements = () => {
   const [elements, setElements] = useState<Element[]>();
   const [error, setError] = useState<ApiError>();
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'failed'>('idle');
 
-  const fetchElements = async () => {
+  const fetchElements = async ({ inForeground = true}: FetchOptions = {}) => {
     setError(undefined);
-    setStatus('loading');
+    inForeground && setStatus('loading');
     try {
       const response = await getElements({
         size: 50,
         startIndex: 0,
       });
       setElements(response.elements);
-      setStatus('success');
+      inForeground && setStatus('success');
     } catch (e) {
       const error = e as ApiError;
       setError(error);
-      setStatus('failed');
+      inForeground && setStatus('failed');
     }
   };
 
@@ -64,8 +71,8 @@ const useElements = () => {
     fetchElements();
   }, []);
 
-  const refetch = () => {
-    fetchElements();
+  const refetch = async ({ inForeground = true }: FetchOptions = {}) => {
+    await fetchElements({ inForeground });
   };
 
   const [elementIdsBeingDeleted, setElementIdsBeingDeleted] = useState<{ [id: string]: boolean }>({});

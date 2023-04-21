@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './app/app';
-import { UseEffectFetchingView } from './app/simple/useEffect-fetching-view';
+import { UseEffectView } from './app/simple/useEffect-view';
 import { ThunkFetchingView } from './app/thunk-based/thunk-fetching-view';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
@@ -21,12 +21,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <UseEffectFetchingView />,
+        element: <UseEffectView />,
       },
       {
         index: true,
         path: '/useEffect',
-        element: <UseEffectFetchingView />,
+        element: <UseEffectView />,
       },
       {
         path: '/redux-thunk',
