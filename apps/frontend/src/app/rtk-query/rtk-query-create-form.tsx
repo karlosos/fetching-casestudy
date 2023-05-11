@@ -1,35 +1,20 @@
-import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { CreateElementRequest } from '../../api/createElement/apiTypes';
-import { createElement } from '../../api';
-import { useElements } from './useEffect-fetching';
+import { useCreateElementMutation } from './api';
 
-type Props = Pick<ReturnType<typeof useElements>, 'refetch'>;
-
-export const UseEffectCreateForm: React.FC<Props> = ({ refetch }) => {
+export const RtkQueryCreateForm = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<CreateElementRequest>();
-  const [isPending, setIsPending] = useState(false);
+  const [createElement, {isLoading: isPending}] = useCreateElementMutation();
 
   const onSubmit: SubmitHandler<CreateElementRequest> = async (data) => {
-    setIsPending(true);
-
-    let newElement;
-    try {
-      newElement = await createElement(data);
-    } catch (e) {
-      console.error(e);
-    }
-    await refetch({ inForeground: false });
-
-    if (newElement) {
-      reset();
-    }
-    setIsPending(false);
+    createElement(data).unwrap().then(() => {
+        reset();
+    });
   };
 
   return (

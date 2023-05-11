@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const UseEffectFetching: React.FC<Props> = ({ elements }) => {
-  const { data, error, refetch, isLoading, deleteElement, elementIdsBeingDeleted } = elements;
+  const { data, error, refetch, isLoading, isFetching, deleteElement, elementIdsBeingDeleted } = elements;
   if (error) {
     return (
       <div>
@@ -27,7 +27,7 @@ export const UseEffectFetching: React.FC<Props> = ({ elements }) => {
   return (
     <div>
       <div>
-        <button onClick={() => refetch()}>Refresh</button>
+        <button onClick={() => refetch()} disabled={isFetching}>{isFetching ? 'Refreshing...' : 'Refresh'}</button>
       </div>
       {data.map((element) => (
         <div key={element.dn}>
@@ -48,18 +48,18 @@ type FetchOptions = {
 export const useElements = () => {
   const [elements, setElements] = useState<Element[]>();
   const [error, setError] = useState<ApiError>();
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'failed'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'fetching' | 'success' | 'failed'>('idle');
 
-  const fetchElements = async ({ inForeground = true}: FetchOptions = {}) => {
+  const fetchElements = async ({ inForeground = true }: FetchOptions = {}) => {
     setError(undefined);
-    inForeground && setStatus('loading');
+    inForeground ? setStatus('loading') : setStatus('fetching');
     try {
       const response = await getElements({
         size: 50,
         startIndex: 0,
       });
       setElements(response.elements);
-      inForeground && setStatus('success');
+      setStatus('success');
     } catch (e) {
       const error = e as ApiError;
       setError(error);
@@ -98,6 +98,7 @@ export const useElements = () => {
     error,
     refetch,
     isLoading: status === 'loading',
+    isFetching: status === 'loading' || status === 'fetching',
     deleteElement,
     elementIdsBeingDeleted,
   };
