@@ -56,7 +56,7 @@
   - [ ] Using redux createAsyncThunk
   - [x] using redux rtk-query
   - [x] Using tanstack-query
-  - [ ] Using swr
+  - [x] Using swr
 - [ ] `updateElement` api endpoint on frontend
   - [ ] tests
   - [ ] mocks with msw
