@@ -27,7 +27,7 @@ export const UseEffectFetching: React.FC<Props> = ({ elements }) => {
   return (
     <div>
       <div>
-        <button onClick={() => refetch()} disabled={isFetching}>{isFetching ? 'Refreshing...' : 'Refresh'}</button>
+        <button onClick={() => refetch({inForeground: false})} disabled={isFetching}>{isFetching ? 'Refreshing...' : 'Refresh'}</button>
       </div>
       {data.map((element) => (
         <div key={element.dn}>

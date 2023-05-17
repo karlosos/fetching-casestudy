@@ -50,12 +50,12 @@
 - [x] `createElement` api endpoint on frontend
   - [x] tests
   - [x] mocks with msw
-- [ ] Creating element from ui using redux
-  - [ ] Using simple useEffect with hook
+- [-] Creating element from ui using redux
+  - [x] Using simple useEffect with hook
   - [ ] Using redux thunk
   - [ ] Using redux createAsyncThunk
-  - [ ] using redux rtk-query
-  - [ ] Using tanstack-query
+  - [x] using redux rtk-query
+  - [x] Using tanstack-query
   - [ ] Using swr
 - [ ] `updateElement` api endpoint on frontend
   - [ ] tests
@@ -69,7 +69,9 @@
   - [ ] Using swr
 - [ ] add total count to the table views
 - [ ] investigate usage od `zod` in api
-- [ ] investigate usage of `redux-hook-form` on update/create forms
+- [x] investigate usage of `redux-hook-form` on update/create forms
 - [ ] implement simple backend api with sqlite db
 - [ ] create ui component library
 - [ ] investigate integration tests with cypress/playwright in addition to rtl
+- [ ] toast notifications with https://react-hot-toast.com/
+- [ ] automatic updates with dependabot

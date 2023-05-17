@@ -1,36 +1,47 @@
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { CreateElementRequest } from '../../api/createElement/apiTypes';
-import { createElement } from '../../api';
-import { useElements } from './useEffect-fetching';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { createElement, getElements } from '../../api';
+import { CreateElementRequest } from '../../api/apiTypes';
 
-type Props = Pick<ReturnType<typeof useElements>, 'refetch'>;
-
-export const UseEffectCreateForm: React.FC<Props> = ({ refetch }) => {
+export const TanstackQueryCreateForm = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<CreateElementRequest>();
+
+  // TODO: might be a problem with dynamic size and startIndex
+  //       it will do fine for now
+  //       alternatively i could do the same as in useEffect-view.tsx
+  const { refetch } = useQuery({
+    queryKey: ['elements'],
+    queryFn: () => getElements({ size: 50, startIndex: 0 }),
+  });
+
   const [isPending, setIsPending] = useState(false);
 
-  const onSubmit: SubmitHandler<CreateElementRequest> = async (data) => {
-    setIsPending(true);
-
-    let newElement;
-    try {
-      newElement = await createElement(data);
-    } catch (e) {
-      console.error(e);
-    }
-    if (newElement) {
+  const createElementMutation = useMutation({
+    mutationFn: createElement,
+    onMutate: (_variables) => {
+      setIsPending(true);
+    },
+    onSuccess: (_data, _variables, _context) => {
+      refetch();
       reset();
-    }
+    },
+    onError: (error) => {
+      console.log('>> onError', error);
+    },
+    onSettled: (_data, _error, _variables, _context) => {
+      console.log('>> onSettled');
+      setIsPending(false);
+    },
+  });
 
-    setIsPending(false);
-
-    refetch({ inForeground: false });
+  const onSubmit: SubmitHandler<CreateElementRequest> = async (data) => {
+    createElementMutation.mutate(data);
   };
 
   return (

@@ -4,8 +4,8 @@ import { RtkQueryFetching } from "./rtk-query-fetching";
 export const RtkQueryView = () => {
   return (
     <>
-      <RtkQueryCreateForm />
-      <RtkQueryFetching /> <br />
+      <RtkQueryCreateForm /> <br />
+      <RtkQueryFetching />
     </>
   );
 };
