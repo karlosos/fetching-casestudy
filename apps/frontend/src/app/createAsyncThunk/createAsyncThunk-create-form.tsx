@@ -2,6 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { CreateElementRequest } from '../../api/apiTypes';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { RootState } from '../store';
+import { RequestStatus } from '../types';
 import { createElement, fetchElements } from './slice';
 
 export const AsyncThunkCreateForm = () => {
@@ -14,7 +15,7 @@ export const AsyncThunkCreateForm = () => {
   const dispatch = useAppDispatch();
 
   const isPending = useAppSelector(
-    (state: RootState) => state.elementsCreateAsyncThunkFetching.creatingElementStatus === 'pending'
+    (state: RootState) => state.elementsCreateAsyncThunkFetching.creatingElementStatus === RequestStatus.Ongoing 
   );
 
   const onSubmit: SubmitHandler<CreateElementRequest> = async (data) => {

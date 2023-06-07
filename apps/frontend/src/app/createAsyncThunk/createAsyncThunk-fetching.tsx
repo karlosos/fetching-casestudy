@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { RootState } from '../store';
+import { RequestStatus } from '../types';
 import { deleteElement, fetchElements } from './slice';
 
 export const AsyncThunkFetching = () => {
@@ -24,7 +25,7 @@ export const AsyncThunkFetching = () => {
     (state: RootState) => state.elementsCreateAsyncThunkFetching.elementIdsBeingDeleted
   );
 
-  if (error && fetchingStatus === 'rejected') {
+  if (error && fetchingStatus === RequestStatus.Failed) {
     return (
       <div>
         {error.message} ({error.statusCode})
@@ -42,8 +43,8 @@ export const AsyncThunkFetching = () => {
   return (
     <div>
       <div>
-        <button onClick={refetch} disabled={fetchingStatus === 'pending'}>
-          {fetchingStatus === 'pending' ? 'Refreshing...' : 'Refresh'}
+        <button onClick={refetch} disabled={fetchingStatus === RequestStatus.Ongoing}>
+          {fetchingStatus === RequestStatus.Ongoing ? 'Refreshing...' : 'Refresh'}
         </button>
       </div>
       {data.map((element) => (

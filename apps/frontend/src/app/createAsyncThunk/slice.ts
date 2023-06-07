@@ -3,8 +3,7 @@ import { getElements as getElementsApi, deleteElement as deleteElementApi, creat
 import { ApiError, ApiErrorSerialized, serializeApiError } from '../../api/apiError';
 import { CreateElementRequest, Element, GetElementsRequest } from '../../api/apiTypes';
 import { AppDispatch, RootState } from '../store';
-
-type RequestState = 'idle' | 'pending' | 'fulfilled' | 'rejected';
+import { RequestStatus } from '../types';
 
 interface ElementsState {
   elements: (Element & { isDeleting?: boolean })[] | undefined;
@@ -13,18 +12,18 @@ interface ElementsState {
   // change elements state to accept `isDeleting` field like:
   // elements: (Element & { isDeleting?: boolean })[] | undefined;
   elementIdsBeingDeleted: { [elementId: string]: boolean };
-  fetchingElementsStatus: RequestState;
+  fetchingElementsStatus: RequestStatus;
   fetchingElementsError: ApiErrorSerialized | undefined;
-  creatingElementStatus: RequestState;
+  creatingElementStatus: RequestStatus;
 }
 
 const initialState: ElementsState = {
   elements: undefined,
   totalElements: undefined,
   elementIdsBeingDeleted: {},
-  fetchingElementsStatus: 'idle',
+  fetchingElementsStatus: RequestStatus.Idle,
   fetchingElementsError: undefined,
-  creatingElementStatus: 'idle',
+  creatingElementStatus: RequestStatus.Idle,
 };
 
 export const elementsCreateAsyncThunkFetchSlice = createSlice({
@@ -34,17 +33,17 @@ export const elementsCreateAsyncThunkFetchSlice = createSlice({
   extraReducers: (builder) => {
     // Fetching
     builder.addCase(fetchElements.pending, (state) => {
-      state.fetchingElementsStatus = 'pending';
+      state.fetchingElementsStatus = RequestStatus.Ongoing;
     });
     builder.addCase(fetchElements.fulfilled, (state, action) => {
-      state.fetchingElementsStatus = 'fulfilled';
+      state.fetchingElementsStatus = RequestStatus.Success;
       const { elements, totalElements } = action.payload;
       state.elements = elements;
       state.totalElements = totalElements;
       state.fetchingElementsError = undefined;
     });
     builder.addCase(fetchElements.rejected, (state, action) => {
-      state.fetchingElementsStatus = 'rejected';
+      state.fetchingElementsStatus = RequestStatus.Failed;
       state.fetchingElementsError = action.payload;
     });
     // Deleting
@@ -65,13 +64,13 @@ export const elementsCreateAsyncThunkFetchSlice = createSlice({
     });
     // Creating 
     builder.addCase(createElement.pending, (state) => {
-      state.creatingElementStatus = 'pending';
+      state.creatingElementStatus = RequestStatus.Ongoing;
     });
     builder.addCase(createElement.fulfilled, (state) => {
-      state.creatingElementStatus = 'fulfilled';
+      state.creatingElementStatus = RequestStatus.Success;
     });
     builder.addCase(createElement.rejected, (state) => {
-      state.creatingElementStatus = 'rejected';
+      state.creatingElementStatus = RequestStatus.Failed;
     });
   },
 });
@@ -101,7 +100,7 @@ export const fetchElements = createAppAsyncThunk(
   {
     condition: (_, { getState }) => {
       const fetchingElementsStatus = getState().elementsCreateAsyncThunkFetching.fetchingElementsStatus;
-      if (fetchingElementsStatus === 'pending') {
+      if (fetchingElementsStatus === RequestStatus.Ongoing) {
         return false;
       }
     },
@@ -146,7 +145,7 @@ export const createElement = createAppAsyncThunk(
   {
     condition: (_, { getState }) => {
       const creatingElementStatus = getState().elementsCreateAsyncThunkFetching.creatingElementStatus;
-      if (creatingElementStatus === 'pending') {
+      if (creatingElementStatus === RequestStatus.Ongoing) {
         return false;
       }
     },

@@ -7,15 +7,14 @@ import {
 import { ApiError, ApiErrorSerialized, serializeApiError } from '../../api/apiError';
 import { CreateElementRequest, Element, GetElementsRequest, GetElementsResponse } from '../../api/apiTypes';
 import { AppThunk } from '../store';
-
-type ApiStatus = 'idle' | 'ongoing' | 'success' | 'failed';
+import { RequestStatus } from '../types';
 
 interface ElementsState {
   elements: Element[] | undefined;
   totalElements: number | undefined;
   elementIdsBeingDeleted: { [elementId: string]: boolean };
-  fetchingElementsStatus: ApiStatus;
-  creatingElementStatus: ApiStatus;
+  fetchingElementsStatus: RequestStatus;
+  creatingElementStatus: RequestStatus;
   fetchingElementsError: ApiErrorSerialized | undefined;
 }
 
@@ -23,9 +22,9 @@ const initialState: ElementsState = {
   elements: undefined,
   totalElements: undefined,
   elementIdsBeingDeleted: {},
-  fetchingElementsStatus: 'idle',
+  fetchingElementsStatus: RequestStatus.Idle,
   fetchingElementsError: undefined,
-  creatingElementStatus: 'idle',
+  creatingElementStatus: RequestStatus.Idle,
 };
 
 export const elementsThunkFetchSlice = createSlice({
@@ -34,17 +33,17 @@ export const elementsThunkFetchSlice = createSlice({
   reducers: {
     // fetching
     fetchingElementsStarted: (state) => {
-      state.fetchingElementsStatus = 'ongoing';
+      state.fetchingElementsStatus = RequestStatus.Ongoing;
       state.fetchingElementsError = undefined;
     },
     fetchingElementsSuccess: (state, action: PayloadAction<GetElementsResponse>) => {
       state.totalElements = action.payload.totalElements;
       state.elements = action.payload.elements;
-      state.fetchingElementsStatus = 'success';
+      state.fetchingElementsStatus = RequestStatus.Success;
     },
     fetchingElementsFailure: (state, action: PayloadAction<ApiErrorSerialized>) => {
       state.fetchingElementsError = action.payload;
-      state.fetchingElementsStatus = 'failed';
+      state.fetchingElementsStatus = RequestStatus.Failed;
       state.elements = undefined;
     },
     // deleting
@@ -60,13 +59,13 @@ export const elementsThunkFetchSlice = createSlice({
     },
     // creating
     createElementStarted: (state) => {
-      state.creatingElementStatus = 'ongoing';
+      state.creatingElementStatus = RequestStatus.Ongoing;
     },
     createElementSuccess: (state) => {
-      state.creatingElementStatus = 'success';
+      state.creatingElementStatus = RequestStatus.Success;
     },
     createElementFailed: (state) => {
-      state.creatingElementStatus = 'failed';
+      state.creatingElementStatus = RequestStatus.Failed;
     },
   },
 });
@@ -91,7 +90,7 @@ export const elementsThunkFetchingReducer = elementsThunkFetchSlice.reducer;
 export const fetchElements =
   (request: GetElementsRequest): AppThunk =>
   async (dispatch, getState) => {
-    if (getState().elementsThunkFetching.fetchingElementsStatus === 'ongoing') {
+    if (getState().elementsThunkFetching.fetchingElementsStatus === RequestStatus.Ongoing) {
       return;
     }
 
@@ -124,13 +123,13 @@ export const deleteElement =
     }
   };
 
-type ReturnThunkApi = Promise<{ status: ApiStatus; error?: string }>;
+type ReturnThunkApi = Promise<{ status: RequestStatus; error?: string }>;
 
 export const createElement =
   (element: CreateElementRequest): AppThunk<any, ReturnThunkApi> =>
   async (dispatch, getState): ReturnThunkApi => {
-    if (getState().elementsThunkFetching.creatingElementStatus === 'ongoing') {
-      return { status: 'ongoing' };
+    if (getState().elementsThunkFetching.creatingElementStatus === RequestStatus.Ongoing) {
+      return { status: RequestStatus.Ongoing };
     }
 
     dispatch(createElementStarted());
@@ -145,7 +144,7 @@ export const createElement =
       );
 
       return {
-        status: 'success',
+        status: RequestStatus.Success,
       };
     } catch (e) {
       const error = e as ApiError;
@@ -158,7 +157,7 @@ export const createElement =
         })
       );
       return {
-        status: 'failed',
+        status: RequestStatus.Failed,
         error: error.message,
       };
     }
