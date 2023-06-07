@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import { RootState } from '../store';
 import { deleteElement, fetchElements } from './slice';
 
-export const AsyncThunkFetchingView = () => {
+export const AsyncThunkFetching = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -35,14 +35,16 @@ export const AsyncThunkFetchingView = () => {
     );
   }
 
-  if (!data || fetchingStatus === 'pending') {
+  if (!data || error) {
     return <div>Loading</div>;
   }
 
   return (
     <div>
       <div>
-        <button onClick={refetch}>Refresh</button>
+        <button onClick={refetch} disabled={fetchingStatus === 'pending'}>
+          {fetchingStatus === 'pending' ? 'Refreshing...' : 'Refresh'}
+        </button>
       </div>
       {data.map((element) => (
         <div key={element.dn}>

@@ -7,12 +7,12 @@ import App from './app/app';
 import { UseEffectView } from './app/simple/useEffect-view';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
-import { AsyncThunkFetchingView } from './app/createAsyncThunk/createAsyncThunk-fetching-view';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SwrView } from './app/swr/swr-view';
 import { TanstackQueryView } from './app/tanstack-query/tanstack-query-view';
 import { RtkQueryView } from './app/rtk-query/rtk-query-view';
 import { ThunkView } from './app/thunk-based/thunk-view';
+import { AsyncThunkView } from './app/createAsyncThunk/createAsyncThunk-view';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/createAsyncThunk',
-        element: <AsyncThunkFetchingView />,
+        element: <AsyncThunkView />,
       },
       {
         path: '/rtk-query',
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/swr',
-        element: <SwrView />
+        element: <SwrView />,
       },
     ],
   },

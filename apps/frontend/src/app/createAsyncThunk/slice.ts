@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getElements as getElementsApi, deleteElement as deleteElementApi } from '../../api';
+import { getElements as getElementsApi, deleteElement as deleteElementApi, createElement as createElementApi } from '../../api';
 import { ApiError, ApiErrorSerialized, serializeApiError } from '../../api/apiError';
-import { Element, GetElementsRequest } from '../../api/apiTypes';
+import { CreateElementRequest, Element, GetElementsRequest } from '../../api/apiTypes';
 import { AppDispatch, RootState } from '../store';
 
 type RequestState = 'idle' | 'pending' | 'fulfilled' | 'rejected';
@@ -15,6 +15,7 @@ interface ElementsState {
   elementIdsBeingDeleted: { [elementId: string]: boolean };
   fetchingElementsStatus: RequestState;
   fetchingElementsError: ApiErrorSerialized | undefined;
+  creatingElementStatus: RequestState;
 }
 
 const initialState: ElementsState = {
@@ -23,6 +24,7 @@ const initialState: ElementsState = {
   elementIdsBeingDeleted: {},
   fetchingElementsStatus: 'idle',
   fetchingElementsError: undefined,
+  creatingElementStatus: 'idle',
 };
 
 export const elementsCreateAsyncThunkFetchSlice = createSlice({
@@ -39,6 +41,7 @@ export const elementsCreateAsyncThunkFetchSlice = createSlice({
       const { elements, totalElements } = action.payload;
       state.elements = elements;
       state.totalElements = totalElements;
+      state.fetchingElementsError = undefined;
     });
     builder.addCase(fetchElements.rejected, (state, action) => {
       state.fetchingElementsStatus = 'rejected';
@@ -59,6 +62,16 @@ export const elementsCreateAsyncThunkFetchSlice = createSlice({
       if (action.payload?.elementId) {
         state.elementIdsBeingDeleted[action.payload.elementId] = false;
       }
+    });
+    // Creating 
+    builder.addCase(createElement.pending, (state) => {
+      state.creatingElementStatus = 'pending';
+    });
+    builder.addCase(createElement.fulfilled, (state) => {
+      state.creatingElementStatus = 'fulfilled';
+    });
+    builder.addCase(createElement.rejected, (state) => {
+      state.creatingElementStatus = 'rejected';
     });
   },
 });
@@ -87,7 +100,7 @@ export const fetchElements = createAppAsyncThunk(
   },
   {
     condition: (_, { getState }) => {
-      const { fetchingElementsStatus } = getState().elementsCreateAsyncThunkFetching;
+      const fetchingElementsStatus = getState().elementsCreateAsyncThunkFetching.fetchingElementsStatus;
       if (fetchingElementsStatus === 'pending') {
         return false;
       }
@@ -103,7 +116,7 @@ export const deleteElement = createAppAsyncThunk<
   'deleteElement',
   async (elementId, { rejectWithValue }) => {
     try {
-      await deleteElementApi({elementId: elementId});
+      await deleteElementApi({ elementId: elementId });
       return elementId;
     } catch (err) {
       const error = err as ApiError;
@@ -114,6 +127,26 @@ export const deleteElement = createAppAsyncThunk<
     condition: (elementId, { getState }) => {
       const elementIdsBeingDeleted = getState().elementsCreateAsyncThunkFetching.elementIdsBeingDeleted;
       if (elementIdsBeingDeleted[elementId] === true) {
+        return false;
+      }
+    },
+  }
+);
+
+export const createElement = createAppAsyncThunk(
+  'createElement',
+  async (request: CreateElementRequest, { rejectWithValue }) => {
+    try {
+      await createElementApi(request);
+    } catch (err) {
+      const error = err as ApiError;
+      return rejectWithValue(serializeApiError(error));
+    }
+  },
+  {
+    condition: (_, { getState }) => {
+      const creatingElementStatus = getState().elementsCreateAsyncThunkFetching.creatingElementStatus;
+      if (creatingElementStatus === 'pending') {
         return false;
       }
     },
