@@ -47,7 +47,7 @@ export const SwrFetching = () => {
     );
   }
 
-  if (isLoading || !data) {
+  if (isLoading || error || !data) {
     return <div>Loading</div>;
   }
 

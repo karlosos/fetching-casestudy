@@ -2,6 +2,7 @@
 
 ## Development 👨‍💻
 
+- run `npm run dev` to start whole monorepo (frontend + backend)
 - run `npx nx serve frontend` to run the dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
   - frontend is configured to use mocks (with msw) by default. See `apps/frontend/src/mocks.ts`
 - run `npx nx serve backend` to run the backend server.
@@ -52,7 +53,7 @@
   - [x] mocks with msw
 - [-] Creating element from ui using redux
   - [x] Using simple useEffect with hook
-  - [ ] Using redux thunk
+  - [x] Using redux thunk
   - [ ] Using redux createAsyncThunk
   - [x] using redux rtk-query
   - [x] Using tanstack-query
@@ -60,7 +61,10 @@
 - [ ] `updateElement` api endpoint on frontend
   - [ ] tests
   - [ ] mocks with msw
-- [ ] Updating element from ui using redux
+- [ ] Error case
+  - [ ] Deleting [feedback message]
+  - [ ] Creating [feedback message]
+- [ ] Updating element from ui
   - [ ] Using simple useEffect with hook
   - [ ] Using redux thunk
   - [ ] Using redux createAsyncThunk
@@ -73,5 +77,6 @@
 - [ ] implement simple backend api with sqlite db
 - [ ] create ui component library
 - [ ] investigate integration tests with cypress/playwright in addition to rtl
+  - [ ] i have removed cypress-e2e tests in a7743b6. revert this change
 - [ ] toast notifications with https://react-hot-toast.com/
 - [ ] automatic updates with dependabot

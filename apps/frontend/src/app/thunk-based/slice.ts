@@ -1,14 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getElements as getElementsApi, deleteElement as deleteElementApi } from '../../api';
+import {
+  getElements as getElementsApi,
+  deleteElement as deleteElementApi,
+  createElement as createElementApi,
+} from '../../api';
 import { ApiError, ApiErrorSerialized, serializeApiError } from '../../api/apiError';
-import { Element, GetElementsRequest, GetElementsResponse } from '../../api/apiTypes';
+import { CreateElementRequest, Element, GetElementsRequest, GetElementsResponse } from '../../api/apiTypes';
 import { AppThunk } from '../store';
+
+type ApiStatus = 'idle' | 'ongoing' | 'success' | 'failed';
 
 interface ElementsState {
   elements: Element[] | undefined;
   totalElements: number | undefined;
   elementIdsBeingDeleted: { [elementId: string]: boolean };
-  fetchingElementsStatus: 'idle' | 'ongoing' | 'success' | 'failed';
+  fetchingElementsStatus: ApiStatus;
+  creatingElementStatus: ApiStatus;
   fetchingElementsError: ApiErrorSerialized | undefined;
 }
 
@@ -18,6 +25,7 @@ const initialState: ElementsState = {
   elementIdsBeingDeleted: {},
   fetchingElementsStatus: 'idle',
   fetchingElementsError: undefined,
+  creatingElementStatus: 'idle',
 };
 
 export const elementsThunkFetchSlice = createSlice({
@@ -37,6 +45,7 @@ export const elementsThunkFetchSlice = createSlice({
     fetchingElementsFailure: (state, action: PayloadAction<ApiErrorSerialized>) => {
       state.fetchingElementsError = action.payload;
       state.fetchingElementsStatus = 'failed';
+      state.elements = undefined;
     },
     // deleting
     deleteElementStarted: (state, action: PayloadAction<string>) => {
@@ -49,10 +58,30 @@ export const elementsThunkFetchSlice = createSlice({
     deleteElementFailure: (state, action: PayloadAction<string>) => {
       state.elementIdsBeingDeleted[action.payload] = false;
     },
+    // creating
+    createElementStarted: (state) => {
+      state.creatingElementStatus = 'ongoing';
+    },
+    createElementSuccess: (state) => {
+      state.creatingElementStatus = 'success';
+    },
+    createElementFailed: (state) => {
+      state.creatingElementStatus = 'failed';
+    },
   },
 });
 
-const { fetchingElementsStarted, fetchingElementsSuccess, fetchingElementsFailure, deleteElementStarted, deleteElementSuccess, deleteElementFailure } = elementsThunkFetchSlice.actions;
+const {
+  fetchingElementsStarted,
+  fetchingElementsSuccess,
+  fetchingElementsFailure,
+  deleteElementStarted,
+  deleteElementSuccess,
+  deleteElementFailure,
+  createElementStarted,
+  createElementSuccess,
+  createElementFailed,
+} = elementsThunkFetchSlice.actions;
 
 export const elementsThunkFetchingReducer = elementsThunkFetchSlice.reducer;
 
@@ -92,5 +121,45 @@ export const deleteElement =
       dispatch(deleteElementSuccess(elementId));
     } catch (e) {
       dispatch(deleteElementFailure(elementId));
+    }
+  };
+
+type ReturnThunkApi = Promise<{ status: ApiStatus; error?: string }>;
+
+export const createElement =
+  (element: CreateElementRequest): AppThunk<any, ReturnThunkApi> =>
+  async (dispatch, getState): ReturnThunkApi => {
+    if (getState().elementsThunkFetching.creatingElementStatus === 'ongoing') {
+      return { status: 'ongoing' };
+    }
+
+    dispatch(createElementStarted());
+    try {
+      await createElementApi(element);
+      dispatch(createElementSuccess());
+      dispatch(
+        fetchElements({
+          size: 50,
+          startIndex: 0,
+        })
+      );
+
+      return {
+        status: 'success',
+      };
+    } catch (e) {
+      const error = e as ApiError;
+
+      dispatch(createElementFailed());
+      dispatch(
+        fetchElements({
+          size: 50,
+          startIndex: 0,
+        })
+      );
+      return {
+        status: 'failed',
+        error: error.message,
+      };
     }
   };

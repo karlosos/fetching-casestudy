@@ -15,7 +15,7 @@ export const createElementBrowserMockHandler = rest.post<
   CreateElementResponseApi | ErrorResponse
 >(createApiUrl(CREATE_ELEMENT_URL), async (req, res, ctx) => {
   await simulateDelay(500, 1000);
-  if (shouldThrowError()) {
+  if (shouldThrowError({probability: 0.2})) {
     return res(
       ctx.status(429),
       ctx.json({

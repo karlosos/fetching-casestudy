@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import { RootState } from '../store';
 import { deleteElement, fetchElements } from './slice';
 
-export const ThunkFetchingView = () => {
+export const ThunkFetching = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export const ThunkFetchingView = () => {
     (state: RootState) => state.elementsThunkFetching.elementIdsBeingDeleted
   );
 
-  if (error && fetchingStatus === 'failed') {
+  if (error && fetchingStatus !== 'ongoing') {
     return (
       <div>
         {error.message} ({error.statusCode})
@@ -42,14 +42,16 @@ export const ThunkFetchingView = () => {
     );
   }
 
-  if (!data || fetchingStatus === 'ongoing') {
+  if (!data || error) {
     return <div>Loading</div>;
   }
 
   return (
     <div>
       <div>
-        <button onClick={refetch}>Refresh</button>
+        <button onClick={refetch} disabled={fetchingStatus === 'ongoing'}>
+          {fetchingStatus === 'ongoing' ? 'Refreshing...' : 'Refresh'}
+        </button>
       </div>
       {data.map((element) => (
         <div key={element.dn}>

@@ -5,7 +5,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './app/app';
 import { UseEffectView } from './app/simple/useEffect-view';
-import { ThunkFetchingView } from './app/thunk-based/thunk-fetching-view';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import { AsyncThunkFetchingView } from './app/createAsyncThunk/createAsyncThunk-fetching-view';
@@ -13,6 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SwrView } from './app/swr/swr-view';
 import { TanstackQueryView } from './app/tanstack-query/tanstack-query-view';
 import { RtkQueryView } from './app/rtk-query/rtk-query-view';
+import { ThunkView } from './app/thunk-based/thunk-view';
 
 const router = createBrowserRouter([
   {
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/redux-thunk',
-        element: <ThunkFetchingView />,
+        element: <ThunkView />,
       },
       {
         path: '/createAsyncThunk',
