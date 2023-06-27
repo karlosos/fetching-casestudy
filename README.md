@@ -1,4 +1,4 @@
-# Case study of various client-side fetching techniques 
+# Case study of various client-side fetching techniques
 
 ## Development 👨‍💻
 
@@ -22,6 +22,13 @@
   - Edit `getElements` mock to see the problem.
 - The `elementIdsBeingDeleted` object could be merged with regular `data` object so that each `element` has `isBeingDeleted: boolean` value.
 - Problem with api that when there is some error (even on client side) then there will be `Internal Server Error` error. Hard to debug. For example if there is an error on mapper side. Investigate if `zod` would solve the issue.
+
+## Updating strategy 🔝
+
+- Upgrade nx with `nx migrate latest --run-migrations`
+- Get list of outdated packages with `npm outdated`
+- Upgrade manualy packages with `npm install package@version`
+- Format code changes with `npm run format`
 
 ## Roadmap 🛣️🎯
 
@@ -51,10 +58,10 @@
 - [x] `createElement` api endpoint on frontend
   - [x] tests
   - [x] mocks with msw
-- [-] Creating element from ui using redux
+- [x] Creating element from ui using redux
   - [x] Using simple useEffect with hook
   - [x] Using redux thunk
-  - [ ] Using redux createAsyncThunk
+  - [x] Using redux createAsyncThunk
   - [x] using redux rtk-query
   - [x] Using tanstack-query
   - [x] Using swr
