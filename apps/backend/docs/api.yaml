@@ -1,0 +1,312 @@
+openapi: 3.0.0
+info:
+  title: Fetching Casestudy Backend
+  version: "0.1"
+paths:
+  /api/v1/elements:
+    get:
+      operationId: GetApiV1Elements
+      responses:
+        "200":
+          description: GET /api/v1/elements Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: object
+                    properties:
+                      elements:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                              format: double
+                              minimum: 5e-324
+                              exclusiveMinimum: false
+                              maximum: 1.7976931348623157e+308
+                              exclusiveMaximum: false
+                            dn:
+                              type: string
+                            deviceType:
+                              type: string
+                            options:
+                              type: object
+                              properties:
+                                latitude:
+                                  type: string
+                                longitude:
+                                  type: string
+                                ip:
+                                  type: string
+                              required:
+                                - latitude
+                                - longitude
+                                - ip
+                          required:
+                            - id
+                            - dn
+                            - deviceType
+                            - options
+                      pageInfo:
+                        type: object
+                        properties:
+                          totalPages:
+                            type: number
+                            format: double
+                            minimum: 5e-324
+                            exclusiveMinimum: false
+                            maximum: 1.7976931348623157e+308
+                            exclusiveMaximum: false
+                          totalElements:
+                            type: number
+                            format: double
+                            minimum: 5e-324
+                            exclusiveMinimum: false
+                            maximum: 1.7976931348623157e+308
+                            exclusiveMaximum: false
+                          numberOfElements:
+                            type: number
+                            format: double
+                            minimum: 5e-324
+                            exclusiveMinimum: false
+                            maximum: 1.7976931348623157e+308
+                            exclusiveMaximum: false
+                          page:
+                            type: number
+                            format: double
+                            minimum: 5e-324
+                            exclusiveMinimum: false
+                            maximum: 1.7976931348623157e+308
+                            exclusiveMaximum: false
+                          limit:
+                            type: number
+                            format: double
+                            minimum: 5e-324
+                            exclusiveMinimum: false
+                            maximum: 1.7976931348623157e+308
+                            exclusiveMaximum: false
+                        required:
+                          - totalPages
+                          - totalElements
+                          - numberOfElements
+                          - page
+                          - limit
+                    required:
+                      - elements
+                      - pageInfo
+                    example:
+                      elements:
+                        - id: 1
+                          dn: 125342.T-MOBILE.COM
+                          deviceType: eNodeB
+                          options:
+                            latitude: "123421.312312"
+                            longitude: "12313421.123123"
+                            ip: 129.120.120.0
+                        - id: 2
+                          dn: BTS-ALFA.T-MOBILE.COM
+                          deviceType: eNodeB
+                          options:
+                            latitude: "123421.312312"
+                            longitude: "12313421.123123"
+                            ip: 129.120.120.0
+                      pageInfo:
+                        totalPages: 1
+                        totalElements: 2
+                        numberOfElements: 2
+                        page: 1
+                        limit: 50
+                required:
+                  - status
+                  - data
+              examples:
+                example1:
+                  value:
+                    status: success
+                    data:
+                      elements:
+                        - id: 1
+                          dn: 125342.T-MOBILE.COM
+                          deviceType: eNodeB
+                          options:
+                            latitude: "123421.312312"
+                            longitude: "12313421.123123"
+                            ip: 129.120.120.0
+                        - id: 2
+                          dn: BTS-ALFA.T-MOBILE.COM
+                          deviceType: eNodeB
+                          options:
+                            latitude: "123421.312312"
+                            longitude: "12313421.123123"
+                            ip: 129.120.120.0
+                      pageInfo:
+                        totalPages: 1
+                        totalElements: 2
+                        numberOfElements: 2
+                        page: 1
+                        limit: 50
+        "400":
+          description: GET /api/v1/elements Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - error
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - error
+              examples:
+                example1:
+                  value:
+                    status: error
+                    error:
+                      message: Sample error message
+      description: Example elements retrieval endpoint.
+      summary: Retrieves all elements.
+      tags:
+        - elements
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: GET /api/v1/elements parameter
+          schema:
+            type: string
+          examples:
+            example1:
+              value: "1"
+        - name: limit
+          in: query
+          required: true
+          description: GET /api/v1/elements parameter
+          schema:
+            type: string
+          examples:
+            example1:
+              value: "50"
+  "/api/v1/elements/{id}":
+    delete:
+      operationId: DeleteApiV1ElementsId
+      responses:
+        "200":
+          description: DELETE /api/v1/elements/:id Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - success
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      createdAt:
+                        description: YYYY-MM-DDTHH:mm:ss.sssZ
+                        type: string
+                        format: date-time
+                        externalDocs:
+                          url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
+                    required:
+                      - name
+                      - createdAt
+                    example:
+                      name: John Doe
+                      createdAt: 2021-12-31T00:00:00.000Z
+                required:
+                  - status
+                  - data
+              examples:
+                example1:
+                  value:
+                    status: success
+                    data:
+                      name: John Doe
+                      createdAt: 2021-12-31T00:00:00.000Z
+        "400":
+          description: DELETE /api/v1/elements/:id Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - error
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                    required:
+                      - message
+                required:
+                  - status
+                  - error
+              examples:
+                example1:
+                  value:
+                    status: error
+                    error:
+                      message: Sample error message
+      summary: Delete element by its ID.
+      tags:
+        - elements
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: a numeric string containing the id of the user
+          schema:
+            type: string
+            pattern: /\d+/
+            description: a numeric string containing the id of the user
+          examples:
+            example1:
+              value: "12"
+        - name: name
+          in: query
+          required: true
+          description: DELETE /api/v1/elements/:id parameter
+          schema:
+            type: string
+            minLength: 1
+          examples:
+            example1:
+              value: John Doe
+components:
+  schemas: {}
+  responses: {}
+  parameters: {}
+  examples: {}
+  requestBodies: {}
+  headers: {}
+  securitySchemes: {}
+  links: {}
+  callbacks: {}
+tags: []
+servers:
+  - url: http://localhost:8090

@@ -56,6 +56,9 @@
           "codeCoverage": true
         }
       }
+    },
+    "generate:docs": {
+      "command": "tsx apps/backend/src/scripts/docsGenerator.ts"
     }
   },
   "tags": []
