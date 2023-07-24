@@ -38,6 +38,7 @@ Backend is written in express.js using [express-zod-api](https://github.com/Robi
 - run `npx nx serve frontend` to run the dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
   - frontend is configured to use mocks (with msw) by default. See `apps/frontend/src/mocks.ts`
 - run `npx nx test frontend` to run frontend tests
+- run `npm run format` to format code
 
 ### Backend development 🧱
 
@@ -48,6 +49,7 @@ Backend is written in express.js using [express-zod-api](https://github.com/Robi
 - run `npx nx run backend:db:generate` to generate migration file
 - run `npx nx run backend:db:studio` to launch db studio
 - run `npx nx run backend:docs:generate` to generate api docs into `./docs/api.yaml` directory
+- run `npm run format` to format code
 
 ## Resources 📚️
 
@@ -65,7 +67,7 @@ Backend is written in express.js using [express-zod-api](https://github.com/Robi
 
 ## Updating strategy 🔝
 
-- Upgrade nx with `nx migrate latest --run-migrations`
+- Upgrade nx with `nx migrate latest` and then `npx nx migrate --run-migrations`
 - Get list of outdated packages with `npm outdated`
 - Upgrade manualy packages with `npm install package@version`
 - Format code changes with `npm run format`
