@@ -57,8 +57,26 @@
         }
       }
     },
-    "generate:docs": {
-      "command": "tsx apps/backend/src/scripts/docsGenerator.ts"
+    "docs:generate": {
+      "command": "tsx apps/backend/src/scripts/docs-generate.ts"
+    },
+    "db:remove": {
+      "command": "tsx apps/backend/src/scripts/db-remove.ts"
+    },
+    "db:push": {
+      "command": "npx drizzle-kit push:sqlite --config apps/backend/drizzle.config.ts"
+    },
+    "db:seed": {
+      "command": "tsx apps/backend/src/scripts/db-seed.ts"
+    },
+    "db:clear": {
+      "command": "npx nx run backend:db:remove && npx nx run backend:db:push && npx nx run backend:db:seed"
+    },
+    "db:studio": {
+      "command": "npx drizzle-kit studio --config apps/backend/drizzle.config.ts"
+    },
+    "db:generate": {
+      "command": "npx drizzle-kit generate:sqlite --config apps/backend/drizzle.config.ts"
     }
   },
   "tags": []

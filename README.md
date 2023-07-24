@@ -1,13 +1,53 @@
-# Case study of various client-side fetching techniques
+# 🎆 FFTC Project 
+
+> Frontend Fetching Techniques Comparison
+
+## About 📝
+
+This projects was meant to be a case study for comparing various fetching techniques on the frontend. It was also an opportunity to check `nx`, `express-zod-api` and `drizzle` along the way. 
+
+On the frontend we have the same view implemented using different techniques. 
+
+### Frontend 🪟
+
+Frontend is using multiple libraries for fetching/caching data from the server:
+
+- manual redux/thunk approach
+- createAsyncThunk approach
+- redux rtkquery approach
+- tanstack query approach
+- swr approach
+
+There is `api` module that defines all consumed endpoints. It is anti-corruption layer that transforms data fetched from the backend into internal types.
+
+For development pursposes `msw` is used so the frontend could have been developed without backend.
+
+### Backend 🧱
+
+Backend is written in express.js using [express-zod-api](https://github.com/RobinTail/express-zod-api) and inspired by [Minimal-Express-Zod-Api-Boilerplate](https://github.com/TheNaubit/Minimal-Express-Zod-Api-Boilerplate). It is using `sqlite` db with `drizzle` and `drizzle-kit`. 
 
 ## Development 👨‍💻
 
-- run `npm run dev` to start whole monorepo (frontend + backend)
+### E2E Development ⛓️
+
+- run `npm run dev` to run whole monorepo (frontend + backend)
+- `npx nx graph --watch` to see a diagram of the dependencies of the project
+
+### Frontend development 🪟
+
 - run `npx nx serve frontend` to run the dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
   - frontend is configured to use mocks (with msw) by default. See `apps/frontend/src/mocks.ts`
+- run `npx nx test frontend` to run frontend tests
+
+### Backend development 🧱
+
+- Swagger (OpenAPI) yaml can be found in `apps/backend/docs/api.yaml` 
 - run `npx nx serve backend` to run the backend server.
-- `npx nx graph --watch` to see a diagram of the dependencies of the project
-- run `npx ns test frontend` to run frontend tests
+- run `npx nx run backend:db:clear` to prepare clean, seeded database
+- run `npx nx run backend:db:push` to push schema changes to `sqlite`
+- run `npx nx run backend:db:generate` to generate migration file
+- run `npx nx run backend:db:studio` to launch db studio
+- run `npx nx run backend:docs:generate` to generate api docs into `./docs/api.yaml` directory
 
 ## Resources 📚️
 
@@ -82,6 +122,12 @@
 - [ ] investigate usage od `zod` in api
 - [x] investigate usage of `redux-hook-form` on update/create forms
 - [ ] implement simple backend api with sqlite db
+  - [ ] get elements endpoint
+  - [ ] create element endpoint 
+  - [ ] delete clement endpoint
+  - [ ] custom response
+  - [ ] configure logger
+  - [ ] generate api docs
 - [ ] create ui component library
 - [ ] investigate integration tests with cypress/playwright in addition to rtl
   - [ ] i have removed cypress-e2e tests in a7743b6. revert this change

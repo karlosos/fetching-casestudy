@@ -1,1 +1,1 @@
-export * from './taggedEndpoints.factory'
+export * from './tagged-endpoints.factory'

@@ -1,1 +1,1 @@
-export * from './methodProvider.middleware'
+export * from './method-provider.middleware'
