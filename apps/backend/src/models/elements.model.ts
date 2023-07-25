@@ -1,6 +1,6 @@
 // https://github.com/drizzle-team/drizzle-orm/blob/main/drizzle-orm/src/sqlite-core/README.md
 import { db } from './db';
-import { InferModel } from 'drizzle-orm';
+import { eq, InferModel } from 'drizzle-orm';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
 export const elements = sqliteTable('elements', {
@@ -21,5 +21,6 @@ export const getAllElements = () => {
 };
 
 export const insertElement = async (element: InsertElement) => {
-  return db.insert(elements).values(element).run();
+  const newElement = await db.insert(elements).values(element).returning().get();
+  return newElement;
 };

@@ -9,4 +9,7 @@ export const zodConfig = createConfig({
     level: "debug",
     color: true,
   },
+  tags: {
+    elements: "Everything about the network elements.",
+  },
 });

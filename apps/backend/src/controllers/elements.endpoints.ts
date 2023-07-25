@@ -2,6 +2,7 @@ import { createHttpError, ez, withMeta } from 'express-zod-api';
 import { z } from 'zod';
 import { taggedEndpointsFactory } from '../factories';
 import { methodProviderMiddleware } from '../middlewares';
+import { insertElement } from '../models/elements.model';
 import { exampleWithRandomThrow } from '../services';
 import { GetElements, getElements } from '../services/elements.service';
 import { safeAsync, safe } from '../utils';
@@ -13,12 +14,16 @@ export const getElementsEndpoint = taggedEndpointsFactory.addMiddleware(methodPr
   description: 'Example elements retrieval endpoint.',
   input: withMeta(
     z.object({
-      page: z.string().transform((value) => parseInt(value)),
-      limit: z.string().transform((value) => parseInt(value)),
-    })
+      page: z
+        .number()
+        .nullable(),
+      limit: z
+        .number()
+        .nullable(),
+    }),
   ).example({
-    page: '1',
-    limit: '50',
+    page: 1,
+    limit: 50,
   }),
   output: withMeta(GetElements).example({
     elements: [
@@ -51,10 +56,10 @@ export const getElementsEndpoint = taggedEndpointsFactory.addMiddleware(methodPr
       limit: 50,
     },
   }),
-  handler: async ({ input: { page, limit }, options: { method }, logger }) => {
-    logger.debug(`Requested page: ${page}, limig: ${limit}, method: ${method}`);
+  handler: async ({ input, options: { method }, logger }) => {
+    logger.debug(`Requested method ${method}, input: ${input}`);
 
-    if (page > 1) throw createHttpError(404, 'Page not found');
+    if (input.page && input.page > 1) throw createHttpError(404, 'Page not found');
 
     return getElements();
   },
@@ -66,26 +71,62 @@ export const createElementEndpoint = taggedEndpointsFactory.addMiddleware(method
   shortDescription: 'Create element.',
   input: withMeta(
     z.object({
-      name: z.string().min(1),
-    })
+      dn: z.string(),
+      deviceType: z.string(),
+      options: z.object({
+        latitude: z.string(),
+        longitude: z.string(),
+        ip: z.string(),
+      }),
+    }),
   ).example({
-    name: 'John Doe',
+    dn: '125342.T-MOBILE.COM',
+    deviceType: 'eNodeB',
+    options: { ip: '129.120.120.2', latitude: '123421.312312', longitude: '12313421.123123' },
   }),
   output: withMeta(
     z.object({
       id: z.number(),
-      name: z.string(),
-      createdAt: ez.dateOut(),
-    })
+      dn: z.string(),
+      deviceType: z.string(),
+      options: z.object({
+        latitude: z.string(),
+        longitude: z.string(),
+        ip: z.string(),
+      }),
+      // createdAt: ez.dateOut(),
+    }),
   ).example({
     id: 1,
-    name: 'John Doe',
-    createdAt: new Date('2021-12-31'),
+    dn: '125342.T-MOBILE.COM',
+    deviceType: 'eNodeB',
+    options: { ip: '129.120.120.2', latitude: '123421.312312', longitude: '12313421.123123' },
   }),
-  handler: async ({ input: { name }, options: { method }, logger }) => {
-    logger.debug(`Requested method ${method}, Name to set: ${name}`);
+  handler: async ({ input, options: { method }, logger }) => {
+    logger.debug(`Requested method ${method}, input: ${input}`);
 
-    throw createHttpError(500, 'Not implemented yet!');
+    try {
+      const newElement = await insertElement({
+        deviceType: input.deviceType,
+        dn: input.dn,
+        ip: input.options.ip,
+        latitude: input.options.latitude,
+        longitude: input.options.longitude,
+      });
+
+      return {
+        deviceType: newElement.deviceType,
+        dn: newElement.dn,
+        id: newElement.id,
+        options: {
+          ip: newElement.ip,
+          latitude: newElement.latitude,
+          longitude: newElement.longitude,
+        },
+      };
+    } catch (e) {
+      throw createHttpError(500, 'Something bad happened on the server');
+    }
   },
 });
 
@@ -102,7 +143,7 @@ export const deleteElementEndpoint = taggedEndpointsFactory.addMiddleware(method
         .transform((id) => parseInt(id, 10))
         .describe('a numeric string containing the id of the user'),
       name: z.string().min(1),
-    })
+    }),
   ).example({
     id: '12',
     name: 'John Doe',
@@ -111,7 +152,7 @@ export const deleteElementEndpoint = taggedEndpointsFactory.addMiddleware(method
     z.object({
       name: z.string(),
       createdAt: ez.dateOut(),
-    })
+    }),
   ).example({
     name: 'John Doe',
     createdAt: new Date('2021-12-31'),
