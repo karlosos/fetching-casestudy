@@ -12,15 +12,27 @@ export const elements = sqliteTable('elements', {
   ip: text('ip').notNull(),
 });
 
-export type Element = InferModel<typeof elements>;
-export type InsertElement = InferModel<typeof elements, 'insert'>;
+type Element = InferModel<typeof elements>;
+type InsertElement = InferModel<typeof elements, 'insert'>;
 
-export const getAllElements = () => {
+const getAllElements = () => {
   const allElements = db.select().from(elements).all();
   return allElements;
 };
 
-export const insertElement = async (element: InsertElement) => {
-  const newElement = await db.insert(elements).values(element).returning().get();
+const insertElement = (element: InsertElement) => {
+  const newElement = db.insert(elements).values(element).returning().get();
   return newElement;
 };
+
+const deleteElement = (elementId: number) => {
+  db.delete(elements)
+    .where(eq(elements.id, elementId))
+    .run();
+};
+
+export const elementsRepository = {
+  getAllElements,
+  insertElement,
+  deleteElement,
+}

@@ -1,6 +1,6 @@
-import { insertElement, InsertElement } from '../models/elements.model';
+import { elementsRepository } from '../models/elements.model';
 
-const elements: InsertElement[] = [
+const elements  = [
   {
     id: 1,
     dn: '125342.T-MOBILE.COM',
@@ -37,7 +37,7 @@ const elements: InsertElement[] = [
 
 const seed = async () => {
   for (const element of elements) {
-    await insertElement(element);
+    elementsRepository.insertElement(element);
   }
 };
 
