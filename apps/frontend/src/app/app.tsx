@@ -17,6 +17,9 @@ export function App() {
         <Link to={`rtk-query`}>
           <Item>Redux + RTK Query</Item>
         </Link>
+        <Link to={`rtk-query-queryfn`}>
+          <Item>Redux + RTK Query queryFn</Item>
+        </Link>
         <Link to={`tanstack-query`}>
           <Item>tanstack-query</Item>
         </Link>

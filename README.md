@@ -64,6 +64,7 @@ Backend is written in express.js using [express-zod-api](https://github.com/Robi
   - Edit `getElements` mock to see the problem.
 - The `elementIdsBeingDeleted` object could be merged with regular `data` object so that each `element` has `isBeingDeleted: boolean` value.
 - Problem with api that when there is some error (even on client side) then there will be `Internal Server Error` error. Hard to debug. For example if there is an error on mapper side. Investigate if `zod` would solve the issue.
+- RTK Query is hard with all those types. It feels overcomplicated and overengineering. A lot of fighting with typescript here, e.g. defining custom `queryFn`. 
 
 ## Updating strategy 🔝
 
