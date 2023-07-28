@@ -18,6 +18,7 @@ export const rtkQueryFnApi = createApi({
           return buildQueryError(err);
         }
       },
+      providesTags: ['Elements'],
     }),
     deleteElement: build.mutation<void, string>({
       queryFn: async (elementId, { dispatch }) => {

@@ -14,6 +14,8 @@ export const RtkQueryFnCreateForm = () => {
   const onSubmit: SubmitHandler<CreateElementRequest> = async (data) => {
     createElement(data).unwrap().then(() => {
         reset();
+    }).catch(() => {
+      console.log('>> something bad happened during creation of the element')
     });
   };
 

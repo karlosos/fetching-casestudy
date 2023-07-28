@@ -6,7 +6,7 @@ export const RtkQueryFnFetching = () => {
   const { data, isLoading, error, refetch, isFetching } = useGetElementsQuery();
   const [deleteElement, _result] = useDeleteElementMutation();
 
-  const elementIdsBeingDeleted = useAppSelector((state: RootState) => state.elementsRtkQuery.elementIdsBeingDeleted);
+  const elementIdsBeingDeleted = useAppSelector((state: RootState) => state.elementsRtkQueryFn.elementIdsBeingDeleted);
 
   if (error && !isFetching) {
     return (
