@@ -18,9 +18,14 @@
     "@nx/linter": "16.5.5",
     "@nx/node": "16.5.5",
     "@nx/react": "16.5.5",
+    "@nx/storybook": "16.5.5",
+    "@nx/web": "16.5.5",
     "@nx/webpack": "16.5.5",
     "@nx/workspace": "16.5.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@storybook/addon-essentials": "^7.0.24",
+    "@storybook/core-server": "^7.0.24",
+    "@storybook/react-vite": "^7.0.24",
     "@svgr/webpack": "8.0.1",
     "@testing-library/react": "14.0.0",
     "@types/better-sqlite3": "^7.6.4",
@@ -54,7 +59,8 @@
     "ts-node": "10.9.1",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "vite": "~4.3.9"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
