@@ -14,6 +14,7 @@ import { RtkQueryView } from './app/rtk-query/rtk-query-view';
 import { RtkQueryFnView } from './app/rtk-query-queryfn/rtk-query-fn-view';
 import { ThunkView } from './app/thunk-based/thunk-view';
 import { AsyncThunkView } from './app/createAsyncThunk/createAsyncThunk-view';
+import { MantineProvider } from '@mantine/core';
 
 const router = createBrowserRouter([
   {
@@ -62,10 +63,12 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </Provider>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </Provider>
+    </MantineProvider>
   </StrictMode>
 );
