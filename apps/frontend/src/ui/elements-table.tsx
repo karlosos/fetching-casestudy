@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { createStyles, Table, Checkbox, ScrollArea, Text, rem, Button, Loader, Badge } from '@mantine/core';
+import { createStyles, Table, Checkbox, ScrollArea, Text, rem, Button, Loader, Badge, Skeleton } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import styled from '@emotion/styled';
-import { neutral200 } from './colors';
+import { neutral200, neutral50, slate50 } from './colors';
 
 //
 // Table Container
@@ -21,9 +21,6 @@ export const TableContainer = ({ children, toolbar }: TableContainerProps) => {
 };
 
 export const TableContainerStyled = styled.div`
-  border: 2px solid ${neutral200};
-  border-radius: 8px;
-  height: 100%;
 `;
 
 export const TableToolbarStyled = styled.div`
@@ -32,13 +29,19 @@ export const TableToolbarStyled = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid ${neutral200};
   align-items: center;
+  font-size: 14px;
+  // position: absolute;
+  // top: 0;
+  // background-color: white;
+  // z-index: 50;
+  // width: 100%;
 `;
 
 export const TableContentStyled = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-`
+`;
 
 //
 // Table body
@@ -54,9 +57,11 @@ const useStyles = createStyles((theme) => ({
 
 interface ElementsTableProps {
   data: { id: string; dn: string; deviceType: string; delete: () => void; isDeletingInProgress: boolean }[];
+  error: React.ReactElement | null;
+  isLoading: boolean;
 }
 
-export function ElementsTable({ data }: ElementsTableProps) {
+export function ElementsTable({ data, error, isLoading }: ElementsTableProps) {
   const { classes, cx } = useStyles();
   const [selection, setSelection] = useState<Array<string>>([]);
   const toggleRow = (id: string) =>
@@ -64,12 +69,29 @@ export function ElementsTable({ data }: ElementsTableProps) {
   const toggleAll = () =>
     setSelection((current) => (current.length === data.length ? [] : data.map((item) => item.id)));
 
+  const renderContent = () => {
+    if (error) {
+      return (
+        <tr>
+          <td rowSpan={5} colSpan={4}>
+            {error}
+          </td>
+        </tr>
+      );
+    }
+    if (isLoading) {
+      return Array.from({ length: 3 }).map(() => <TableLoader />);
+    }
+    return rows;
+  };
+
   const rows = data.map((item) => {
     const selected = selection.includes(item.id);
     return (
-      <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
+      <TableRowStyled key={item.id} className={cx({ [classes.rowSelected]: selected })}>
         <td>
           <Checkbox
+            size={'xs'}
             disabled
             checked={selection.includes(item.id)}
             onChange={() => toggleRow(item.id)}
@@ -77,7 +99,7 @@ export function ElementsTable({ data }: ElementsTableProps) {
           />
         </td>
         <td>
-          <Text size="sm" weight={500}>
+          <Text size="xs" weight={500} color="gray.8">
             {item.dn}
           </Text>
         </td>
@@ -86,46 +108,94 @@ export function ElementsTable({ data }: ElementsTableProps) {
             {item.deviceType}
           </Badge>
         </td>
-        <td style={{textAlign: 'right'}}>
+        <TableActionCellStyled style={{ textAlign: 'right' }}>
           <Button
-            variant="outline"
-            color="blue.5"
-            compact
+            variant="light"
+            color="gray.8"
             onClick={item.delete}
             disabled={item.isDeletingInProgress}
-            leftIcon={item.isDeletingInProgress ? <Loader size={16} /> : <IconTrash size={16} />}
+            compact
+            title="Delete element"
           >
-            Delete
+            {item.isDeletingInProgress ? <Loader size={16} /> : <IconTrash size={16} />}
           </Button>
-        </td>
-      </tr>
+        </TableActionCellStyled>
+      </TableRowStyled>
     );
   });
 
   return (
-    <ScrollArea>
-      <Table miw={800} verticalSpacing="xs">
-        <thead>
+    <ScrollArea.Autosize mah='calc(90vh)'>
+      <Table miw={800} verticalSpacing={4} style={{ tableLayout: 'fixed' }} fontSize={'12px'}>
+        <TableHeadStyled>
           <tr>
-            <th style={{ width: rem(40) }}>
+            <th style={{ width: rem(30) }}>
               <Checkbox
+                size={'xs'}
                 disabled
                 onChange={toggleAll}
-                checked={selection.length === data.length}
+                checked={selection.length === data.length && selection.length > 0}
                 indeterminate={selection.length > 0 && selection.length !== data.length}
                 transitionDuration={0}
               />
             </th>
             <th>DN</th>
             <th>Device Type</th>
-            <th style={{textAlign: 'right'}}>Actions</th>
+            <th></th>
           </tr>
-        </thead>
-        <tbody>{rows}</tbody>
+        </TableHeadStyled>
+        <tbody>{renderContent()}</tbody>
       </Table>
-    </ScrollArea>
+    </ScrollArea.Autosize>
   );
 }
+
+const TableHeadStyled = styled.thead`
+  background-color: ${slate50};
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-bottom: 0.15rem solid #dee2e6;
+  }
+`;
+
+const TableActionCellStyled = styled.td`
+  button {
+    opacity: 0;
+  }
+
+  button:disabled {
+    opacity: 1;
+  }
+`;
+
+const TableRowStyled = styled.tr`
+  td {
+    height: 36.17px;
+  }
+
+  &:hover,
+  &:focus-within {
+    background-color: ${neutral50};
+
+    ${TableActionCellStyled} {
+      button {
+        opacity: 1;
+      }
+    }
+  }
+
+  &:last-of-type {
+    border-bottom: 0.0625rem solid #dee2e6;
+  }
+`;
 
 //
 // Table info
@@ -156,20 +226,20 @@ const TableInfoStyled = styled.div`
 //
 export const TableLoader = () => {
   return (
-    <TableLoaderStyled>
-      <Loader size="lg" variant="dots" />
-    </TableLoaderStyled>
+    <TableRowStyled>
+      <td>
+        <Checkbox size={'xs'} disabled transitionDuration={0} />
+      </td>
+      <td>
+        <Skeleton height={16} radius="xl" width="200px" />
+      </td>
+      <td>
+        <Skeleton height={16} radius="xl" width="150px" />
+      </td>
+      <td></td>
+    </TableRowStyled>
   );
 };
-
-const TableLoaderStyled = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 1;
-`;
 
 //
 // Table error

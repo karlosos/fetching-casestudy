@@ -10,49 +10,19 @@ type Props = {
   elements: ReturnType<typeof useElements>;
 };
 
-
 /*
 TODO:
-- [ ] loading spinner inside the table (under table headings)
-- [ ] instead of spinner there should be skeleton
+- [x] loading spinner inside the table (under table headings)
+- [x] instead of spinner there should be skeleton
 - [ ] better styling of error component
 - [ ] add info icon near actions to some info on hover
+- [ ] fix height - scrollbar only on table
+- [ ] maximum width for the content
+- [ ] border on the last row
 */
-
 
 export const UseEffectFetching: React.FC<Props> = ({ elements }) => {
   const { data, error, refetch, isLoading, isFetching, deleteElement, elementIdsBeingDeleted } = elements;
-
-  const renderTableContent = () => {
-    if (error) {
-      return (
-        <TableErrorStyled>
-          {error.message} ({error.statusCode})
-          <div>
-            <Button variant={'light'} onClick={() => refetch()} leftIcon={<IconRefresh size={16} />}>
-              Refresh
-            </Button>
-          </div>
-        </TableErrorStyled>
-      );
-    }
-
-    if (!data || isLoading) {
-      return <TableLoader />;
-    }
-
-    return (
-      <ElementsTable
-        data={data.map((element) => ({
-          dn: element.dn,
-          deviceType: element.deviceType,
-          id: element.id,
-          isDeletingInProgress: elementIdsBeingDeleted[element.id] === true,
-          delete: () => deleteElement(element.id),
-        }))}
-      />
-    );
-  };
 
   return (
     <TableContainer
@@ -62,17 +32,44 @@ export const UseEffectFetching: React.FC<Props> = ({ elements }) => {
             <TableInfo totalElements={data?.length} />
           </div>
           <Button
+            compact
             variant={'light'}
             onClick={() => refetch({ inForeground: false })}
             disabled={isFetching}
-            leftIcon={isFetching ? <Loader size={16} /> : <IconRefresh size={16} />}
+            size="xs"
+            leftIcon={isFetching ? <Loader size={14} /> : <IconRefresh size={14} />}
           >
-            {isFetching ? 'Refreshing...' : 'Refresh'}
+            {isFetching ? 'REFRESHING...' : 'REFRESH'}
           </Button>
         </>
       }
     >
-      {renderTableContent()}
+      <ElementsTable
+        error={
+          error ? (
+            <TableErrorStyled>
+              {error.message} ({error.statusCode})
+              <div>
+                <Button variant={'light'} onClick={() => refetch()} leftIcon={<IconRefresh size={16} />}>
+                  Refresh
+                </Button>
+              </div>
+            </TableErrorStyled>
+          ) : null
+        }
+        isLoading={!data || isLoading}
+        data={
+          !data
+            ? []
+            : data.map((element) => ({
+                dn: element.dn,
+                deviceType: element.deviceType,
+                id: element.id,
+                isDeletingInProgress: elementIdsBeingDeleted[element.id] === true,
+                delete: () => deleteElement(element.id),
+              }))
+        }
+      />
     </TableContainer>
   );
 };

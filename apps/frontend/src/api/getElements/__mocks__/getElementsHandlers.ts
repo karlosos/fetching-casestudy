@@ -99,4 +99,174 @@ export const elementsMock = [
       ip: '129.120.120.0',
     },
   },
+  {
+    id: '4',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '5',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '6',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '7',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '8',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '9',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '10',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '11',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '12',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '13',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '14',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '15',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '17',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '18',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '19',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '20',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
+  {
+    id: '21',
+    dn: 'BTS-123.ORANGE.COM',
+    deviceType: 'eNodeB',
+    options: {
+      latitude: '123421.312312',
+      longitude: '12313421.123123',
+      ip: '129.120.120.0',
+    },
+  },
 ];

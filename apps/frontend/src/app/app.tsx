@@ -5,7 +5,7 @@ import {
   IconBrandReact,
 } from '@tabler/icons-react';
 import styled from '@emotion/styled';
-import { neutral200 } from '../ui/colors';
+import { neutral200, neutral50 } from '../ui/colors';
 
 export function App() {
   return (
@@ -31,16 +31,15 @@ const data = [
 
 const AppShell = styled.div`
   display: flex;
+  background-color: ${neutral50};
 `;
 
 const Main = styled.div`
-  margin: 8px;
-  padding: 8px;
   border: 1px solid ${neutral200};
   border-radius: 8px;
-  width: 100%;
-  overflow: auto;
-  height: calc(100vh - 16px);
+  // max-width: 1900px;
+  margin: 8px;
+  background-color: white;
 `;
 
 export default App;
