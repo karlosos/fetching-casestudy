@@ -1,17 +1,6 @@
 import { useState } from 'react';
 import { createStyles, Navbar, Group, Code, getStylesRef, rem } from '@mantine/core';
-import {
-  IconBellRinging,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
-  IconSwitchHorizontal,
-  IconLogout,
-  TablerIconsProps,
-} from '@tabler/icons-react';
+import { IconSwitchHorizontal, IconLogout, TablerIconsProps, IconBrandGithub } from '@tabler/icons-react';
 import { ReactComponent as Logo } from './logo.svg';
 import { Link } from 'react-router-dom';
 
@@ -23,7 +12,7 @@ const useStyles = createStyles((theme) => ({
   version: {
     backgroundColor: theme.fn.lighten(
       theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-      0.1
+      0.1,
     ),
     color: theme.white,
     fontWeight: 700,
@@ -34,16 +23,24 @@ const useStyles = createStyles((theme) => ({
     marginBottom: `calc(${theme.spacing.md} * 1.5)`,
     borderBottom: `${rem(1)} solid ${theme.fn.lighten(
       theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-      0.1
+      0.1,
     )}`,
   },
 
+  logo: {
+    color: 'white',
+    fontSize: theme.fontSizes.sm,
+    fontWeight: 700,
+    letterSpacing: -0.3,
+  },
+
   footer: {
+    fontSize: theme.fontSizes.xs,
     paddingTop: theme.spacing.md,
     marginTop: theme.spacing.md,
     borderTop: `${rem(1)} solid ${theme.fn.lighten(
       theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-      0.1
+      0.1,
     )}`,
   },
 
@@ -52,7 +49,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     textDecoration: 'none',
-    fontSize: theme.fontSizes.sm,
+    fontSize: theme.fontSizes.xs,
     color: theme.white,
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
     borderRadius: theme.radius.sm,
@@ -61,7 +58,7 @@ const useStyles = createStyles((theme) => ({
     '&:hover': {
       backgroundColor: theme.fn.lighten(
         theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-        0.1
+        0.1,
       ),
     },
   },
@@ -77,7 +74,7 @@ const useStyles = createStyles((theme) => ({
     '&, &:hover': {
       backgroundColor: theme.fn.lighten(
         theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-        0.15
+        0.15,
       ),
       [`& .${getStylesRef('icon')}`]: {
         opacity: 0.9,
@@ -87,16 +84,16 @@ const useStyles = createStyles((theme) => ({
 }));
 
 type SidebarItem = {
-  link: string,
-  label: string,
-  icon: (props: TablerIconsProps) => JSX.Element,
-}
+  link: string;
+  label: string;
+  icon: (props: TablerIconsProps) => JSX.Element;
+};
 
 type Props = {
-  items: SidebarItem[],
-}
+  items: SidebarItem[];
+};
 
-export function Sidebar({items}: Props) {
+export function Sidebar({ items }: Props) {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Billing');
 
@@ -109,32 +106,25 @@ export function Sidebar({items}: Props) {
         setActive(item.label);
       }}
     >
-      <item.icon className={classes.linkIcon} stroke={1.5} />
+      <item.icon className={classes.linkIcon} stroke={1.5} size={16} />
       <span>{item.label}</span>
     </Link>
   ));
 
   return (
-    <Navbar height={'100vh'} width={{ sm: 300 }} p="md" className={classes.navbar}>
+    <Navbar height={'100vh'} width={{ sm: 250 }} p="md" className={classes.navbar}>
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
-          <div style={{height: '40px'}}>
-            <Logo style={{height: '40px' }} fill={'#fff'} />
-          </div>
-          <Code className={classes.version}>v3.1.2</Code>
+          <div className={classes.logo}>fetching libraries</div>
+          <Code className={classes.version}>v0.0.1</Code>
         </Group>
         {links}
       </Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-          <IconSwitchHorizontal className={classes.linkIcon} stroke={1.5} />
-          <span>Change account</span>
-        </a>
-
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-          <IconLogout className={classes.linkIcon} stroke={1.5} />
-          <span>Logout</span>
+        <a href="https://github.com/karlosos/fetching-casestudy" className={classes.link}>
+          <IconBrandGithub className={classes.linkIcon} stroke={1.5} size={16} />
+          <span>Source Code</span>
         </a>
       </Navbar.Section>
     </Navbar>

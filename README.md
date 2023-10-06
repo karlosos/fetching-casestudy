@@ -121,7 +121,7 @@ Backend is written in express.js using [express-zod-api](https://github.com/Robi
   - [ ] using redux rtk-query
   - [ ] Using tanstack-query
   - [ ] Using swr
-- [ ] add total count to the table views
+- [x] add total count to the table views
 - [ ] investigate usage od `zod` in api
 - [x] investigate usage of `redux-hook-form` on update/create forms
 - [ ] implement simple backend api with sqlite db

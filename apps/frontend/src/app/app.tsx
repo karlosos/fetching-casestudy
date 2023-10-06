@@ -37,9 +37,9 @@ const AppShell = styled.div`
 const Main = styled.div`
   border: 1px solid ${neutral200};
   border-radius: 8px;
-  // max-width: 1900px;
   margin: 8px;
   background-color: white;
+  display: flex;
 `;
 
 export default App;

@@ -3,8 +3,20 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { CreateElementRequest } from '../../api/createElement/apiTypes';
 import { createElement } from '../../api';
 import { useElements } from './useEffect-fetching';
+import { PanelContentStyled, PanelFooterStyled, PanelHeaderStyled, PanelStyled } from '../../ui/panel';
+import { Button, Select, Text, TextInput } from '@mantine/core';
+import { DeviceType } from '../../api/apiTypes';
 
 type Props = Pick<ReturnType<typeof useElements>, 'refetch'>;
+
+/*
+TODO:
+
+- [ ] Show feedback message on error/success
+- [ ] Clear device type on success
+- [ ] https://mantine.dev/guides/6x-to-7x/
+
+*/
 
 export const UseEffectCreateForm: React.FC<Props> = ({ refetch }) => {
   const {
@@ -12,6 +24,7 @@ export const UseEffectCreateForm: React.FC<Props> = ({ refetch }) => {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useForm<CreateElementRequest>();
   const [isPending, setIsPending] = useState(false);
 
@@ -34,38 +47,56 @@ export const UseEffectCreateForm: React.FC<Props> = ({ refetch }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="dn">dn:</label>
-        <br />
-        <input {...register('dn', { required: true })} disabled={isPending} />
-        {errors.dn && <span>This field is required</span>}
-        <br />
-
-        <label htmlFor="device_type">device type:</label>
-        <br />
-        <input {...register('deviceType', { required: true })} disabled={isPending} />
-        {errors.deviceType && <span>This field is required</span>}
-        <br />
-
-        <label htmlFor="ip">ip:</label>
-        <br />
-        <input {...register('ip', { required: true })} disabled={isPending} />
-        {errors.ip && <span>This field is required</span>}
-        <br />
-
-        <label htmlFor="longitude">longitude:</label>
-        <br />
-        <input {...register('longitude')} disabled={isPending} />
-        <br />
-
-        <label htmlFor="latitude">longitude:</label>
-        <br />
-        <input {...register('latitude')} disabled={isPending} />
-        <br />
-
-        <input type="submit" value={isPending ? 'Saving...' : 'Save'} disabled={isPending} />
-      </form>
-    </div>
+    <PanelStyled>
+      <PanelHeaderStyled>
+        <Text fw={600} c="dark.5">
+          Elements
+        </Text>
+      </PanelHeaderStyled>
+      <PanelContentStyled>
+        <form onSubmit={handleSubmit(onSubmit)} id="create-element-form">
+          <TextInput
+            label="DN"
+            {...register('dn', { required: true })}
+            disabled={isPending}
+            size="sm"
+            withAsterisk
+            error={errors.dn && 'This field is required'}
+            mt="sm"
+          />
+          <Select
+            data={[
+              { value: DeviceType.eNodeB, label: 'eNodeB' },
+              { value: DeviceType.gNodeB, label: 'gNodeB' },
+            ]}
+            label="Device Type"
+            {...register('deviceType', { required: true })}
+            onChange={(value: DeviceType) => value && setValue('deviceType', value )}
+            disabled={isPending}
+            size="sm"
+            withAsterisk
+            error={errors.deviceType && 'This field is required'}
+            mt="sm"
+            clearable
+          />
+          <TextInput
+            label="IP"
+            {...register('ip', { required: true })}
+            disabled={isPending}
+            size="sm"
+            withAsterisk
+            error={errors.ip && 'This field is required'}
+            mt="sm"
+          />
+          <TextInput label="Longitude" {...register('longitude')} disabled={isPending} size="sm" mt="sm" />
+          <TextInput label="Latitude" {...register('longitude')} disabled={isPending} size="sm" mt="sm" />
+        </form>
+      </PanelContentStyled>
+      <PanelFooterStyled>
+        <Button type="submit" disabled={isPending} form="create-element-form">
+          {isPending ? 'Saving...' : 'Save'}
+        </Button>
+      </PanelFooterStyled>
+    </PanelStyled>
   );
 };

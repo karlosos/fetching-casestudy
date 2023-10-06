@@ -6,8 +6,8 @@ export const UseEffectView = () => {
 
   return (
     <>
-      {/* <UseEffectCreateForm refetch={elements.refetch} /> <br /> */}
       <UseEffectFetching elements={elements} />
+      <UseEffectCreateForm refetch={elements.refetch} /> <br />
     </>
   );
 };

@@ -20,8 +20,7 @@ export const TableContainer = ({ children, toolbar }: TableContainerProps) => {
   );
 };
 
-export const TableContainerStyled = styled.div`
-`;
+export const TableContainerStyled = styled.div``;
 
 export const TableToolbarStyled = styled.div`
   padding: 8px 10px;
@@ -30,11 +29,6 @@ export const TableToolbarStyled = styled.div`
   border-bottom: 1px solid ${neutral200};
   align-items: center;
   font-size: 14px;
-  // position: absolute;
-  // top: 0;
-  // background-color: white;
-  // z-index: 50;
-  // width: 100%;
 `;
 
 export const TableContentStyled = styled.div`
@@ -48,10 +42,7 @@ export const TableContentStyled = styled.div`
 //
 const useStyles = createStyles((theme) => ({
   rowSelected: {
-    backgroundColor:
-      theme.colorScheme === 'dark'
-        ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2)
-        : theme.colors[theme.primaryColor][0],
+    backgroundColor: theme.colors[theme.primaryColor][0],
   },
 }));
 
@@ -125,8 +116,15 @@ export function ElementsTable({ data, error, isLoading }: ElementsTableProps) {
   });
 
   return (
-    <ScrollArea.Autosize mah='calc(90vh)'>
-      <Table miw={800} verticalSpacing={4} style={{ tableLayout: 'fixed' }} fontSize={'12px'}>
+    <ScrollArea.Autosize
+      mah="calc(100vh - 57px)"
+      styles={(theme) => ({
+        scrollbar: {
+          zIndex: 2,
+        },
+      })}
+    >
+      <Table verticalSpacing={4} style={{ tableLayout: 'fixed' }} fontSize={'12px'}>
         <TableHeadStyled>
           <tr>
             <th style={{ width: rem(30) }}>
@@ -154,10 +152,10 @@ const TableHeadStyled = styled.thead`
   background-color: ${slate50};
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 1;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     right: 0;
@@ -245,6 +243,7 @@ export const TableLoader = () => {
 // Table error
 //
 export const TableErrorStyled = styled.div`
+  margin-top: 32px;
   height: 100%;
   width: 100%;
   display: flex;
@@ -253,4 +252,6 @@ export const TableErrorStyled = styled.div`
   align-items: center;
   justify-content: center;
   flex-grow: 1;
+  font-weight: 500;
+  font-size: 13px;
 `;

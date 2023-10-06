@@ -4,22 +4,11 @@ import { useEffect, useState } from 'react';
 import { deleteElement as deleteElementApi, getElements } from '../../api';
 import { ApiError } from '../../api/apiError';
 import { Element } from '../../api/apiTypes';
-import { ElementsTable, TableContainer, TableErrorStyled, TableInfo, TableLoader } from '../../ui/elements-table';
+import { ElementsTable, TableContainer, TableErrorStyled, TableInfo } from '../../ui/elements-table';
 
 type Props = {
   elements: ReturnType<typeof useElements>;
 };
-
-/*
-TODO:
-- [x] loading spinner inside the table (under table headings)
-- [x] instead of spinner there should be skeleton
-- [ ] better styling of error component
-- [ ] add info icon near actions to some info on hover
-- [ ] fix height - scrollbar only on table
-- [ ] maximum width for the content
-- [ ] border on the last row
-*/
 
 export const UseEffectFetching: React.FC<Props> = ({ elements }) => {
   const { data, error, refetch, isLoading, isFetching, deleteElement, elementIdsBeingDeleted } = elements;
@@ -85,7 +74,12 @@ export const useElements = () => {
 
   const fetchElements = async ({ inForeground = true }: FetchOptions = {}) => {
     setError(undefined);
-    inForeground ? setStatus('loading') : setStatus('fetching');
+    if (inForeground || status === 'failed') {
+      setStatus('loading');
+    } else {
+      setStatus('fetching');
+    }
+
     try {
       const response = await getElements({
         size: 50,
@@ -96,7 +90,7 @@ export const useElements = () => {
     } catch (e) {
       const error = e as ApiError;
       setError(error);
-      inForeground && setStatus('failed');
+      setStatus('failed');
     }
   };
 
