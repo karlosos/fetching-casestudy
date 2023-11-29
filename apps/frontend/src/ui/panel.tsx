@@ -3,7 +3,7 @@ import { neutral200 } from "./colors";
 
 export const PanelStyled = styled.div`
   border-left: 1px solid ${neutral200};
-  min-width: 200px;
+  min-width: 335px;
   display: flex;
   flex-direction: column;
 `

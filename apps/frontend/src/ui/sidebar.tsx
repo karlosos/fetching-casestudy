@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { createStyles, Navbar, Group, Code, getStylesRef, rem } from '@mantine/core';
-import { IconSwitchHorizontal, IconLogout, TablerIconsProps, IconBrandGithub } from '@tabler/icons-react';
-import { ReactComponent as Logo } from './logo.svg';
+import { TablerIconsProps, IconBrandGithub } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({

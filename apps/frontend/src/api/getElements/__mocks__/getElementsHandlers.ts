@@ -43,7 +43,7 @@ export const getElementsResponseHandler = rest.get<any, any, GetElementsResponse
   async (req, res, ctx) => {
     const limit = req.url.searchParams.get('limit');
     const page = req.url.searchParams.get('page');
-    const elements = elementsMock;
+    const elements = elementsMock.slice(0, 3);
 
     const response: GetElementsResponseApi = {
       elements: elements,
