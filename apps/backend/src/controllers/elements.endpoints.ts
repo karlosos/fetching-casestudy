@@ -107,6 +107,7 @@ export const createElementEndpoint = taggedEndpointsFactory.addMiddleware(method
   },
 });
 
+// TODO: fix swagger for this endpoint
 export const deleteElementEndpoint = taggedEndpointsFactory.addMiddleware(methodProviderMiddleware).build({
   method: 'delete',
   tag: 'elements',
