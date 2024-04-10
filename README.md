@@ -68,7 +68,7 @@ Backend is written in express.js using [express-zod-api](https://github.com/Robi
 
 ## Updating strategy 🔝
 
-- Upgrade nx with `nx migrate latest` and then `npx nx migrate --run-migrations`
+- Upgrade nx with `npx nx migrate latest` and then `npx nx migrate --run-migrations`
 - Get list of outdated packages with `npm outdated`
 - Upgrade manualy packages with `npm install package@version`
 - Format code changes with `npm run format`
