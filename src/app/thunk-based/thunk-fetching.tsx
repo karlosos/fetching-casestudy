@@ -25,11 +25,11 @@ export const ThunkFetching = () => {
     );
   };
 
-  const data = useAppSelector((state: RootState) => state.elementsThunkFetching.elements);
-  const fetchingStatus = useAppSelector((state: RootState) => state.elementsThunkFetching.fetchingElementsStatus);
-  const error = useAppSelector((state: RootState) => state.elementsThunkFetching.fetchingElementsError);
+  const data = useAppSelector((state: RootState) => state.elementsWithThunks.elements);
+  const fetchingStatus = useAppSelector((state: RootState) => state.elementsWithThunks.fetchingElementsStatus);
+  const error = useAppSelector((state: RootState) => state.elementsWithThunks.fetchingElementsError);
   const elementIdsBeingDeleted = useAppSelector(
-    (state: RootState) => state.elementsThunkFetching.elementIdsBeingDeleted
+    (state: RootState) => state.elementsWithThunks.elementIdsBeingDeleted
   );
 
   if (error && fetchingStatus !== RequestStatus.Ongoing) {

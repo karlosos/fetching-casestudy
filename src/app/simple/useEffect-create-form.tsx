@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { CreateElementRequest } from '../../api/createElement/apiTypes';
 import { createElement } from '../../api';
-import { useElements } from './useEffect-fetching';
 import { PanelContentStyled, PanelFooterStyled, PanelHeaderStyled, PanelStyled } from '../../ui/panel';
 import { Button, Select, Text, TextInput } from '@mantine/core';
 import { DeviceType } from '../../api/apiTypes';
+import { useElements } from './use-elements';
 
 type Props = Pick<ReturnType<typeof useElements>, 'refetch'>;
 
@@ -71,7 +71,7 @@ export const UseEffectCreateForm: React.FC<Props> = ({ refetch }) => {
             ]}
             label="Device Type"
             {...register('deviceType', { required: true })}
-            onChange={(value: DeviceType) => value && setValue('deviceType', value )}
+            onChange={(value: DeviceType) => value && setValue('deviceType', value)}
             disabled={isPending}
             size="sm"
             withAsterisk

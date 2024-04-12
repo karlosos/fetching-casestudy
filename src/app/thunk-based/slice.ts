@@ -27,8 +27,8 @@ const initialState: ElementsState = {
   creatingElementStatus: RequestStatus.Idle,
 };
 
-export const elementsThunkFetchSlice = createSlice({
-  name: 'elementsThunkFetch',
+export const elementsWithThunksSlice = createSlice({
+  name: 'elementsWithThunks',
   initialState,
   reducers: {
     // fetching
@@ -80,17 +80,15 @@ const {
   createElementStarted,
   createElementSuccess,
   createElementFailed,
-} = elementsThunkFetchSlice.actions;
+} = elementsWithThunksSlice.actions;
 
-export const elementsThunkFetchingReducer = elementsThunkFetchSlice.reducer;
+export const elementsWithThunksReducer = elementsWithThunksSlice.reducer;
 
 /* Thunks */
-// TODO: move types to something like ApiTypes
-// I should not be able to access api types here
 export const fetchElements =
   (request: GetElementsRequest): AppThunk =>
   async (dispatch, getState) => {
-    if (getState().elementsThunkFetching.fetchingElementsStatus === RequestStatus.Ongoing) {
+    if (getState().elementsWithThunks.fetchingElementsStatus === RequestStatus.Ongoing) {
       return;
     }
 
@@ -108,7 +106,7 @@ export const fetchElements =
 export const deleteElement =
   (elementId: string): AppThunk =>
   async (dispatch, getState) => {
-    const elementIdsBeingDeleted = getState().elementsThunkFetching.elementIdsBeingDeleted;
+    const elementIdsBeingDeleted = getState().elementsWithThunks.elementIdsBeingDeleted;
 
     if (elementIdsBeingDeleted[elementId] === true) {
       return;
@@ -126,9 +124,9 @@ export const deleteElement =
 type ReturnThunkApi = Promise<{ status: RequestStatus; error?: string }>;
 
 export const createElement =
-  (element: CreateElementRequest): AppThunk<CreateElementRequest, ReturnThunkApi> =>
+  (element: CreateElementRequest): AppThunk<ReturnThunkApi> =>
   async (dispatch, getState): ReturnThunkApi => {
-    if (getState().elementsThunkFetching.creatingElementStatus === RequestStatus.Ongoing) {
+    if (getState().elementsWithThunks.creatingElementStatus === RequestStatus.Ongoing) {
       return { status: RequestStatus.Ongoing };
     }
 

@@ -15,7 +15,7 @@ export const AsyncThunkCreateForm = () => {
   const dispatch = useAppDispatch();
 
   const isPending = useAppSelector(
-    (state: RootState) => state.elementsCreateAsyncThunkFetching.creatingElementStatus === RequestStatus.Ongoing 
+    (state: RootState) => state.elementsWithCreateAsyncThunk.creatingElementStatus === RequestStatus.Ongoing
   );
 
   const onSubmit: SubmitHandler<CreateElementRequest> = async (data) => {

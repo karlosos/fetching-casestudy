@@ -26,8 +26,8 @@ const initialState: ElementsState = {
   creatingElementStatus: RequestStatus.Idle,
 };
 
-export const elementsCreateAsyncThunkFetchSlice = createSlice({
-  name: 'elementsCreateAsyncThunkFetch',
+export const elementsWithCreateAsyncThunksSlice = createSlice({
+  name: 'elementsWithCreateAsyncThunks',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -58,11 +58,12 @@ export const elementsCreateAsyncThunkFetchSlice = createSlice({
     });
     builder.addCase(deleteElement.rejected, (state, action) => {
       // TODO: why payload can be undefined?
+      //       how to define `rejectedWithValue` case?
       if (action.payload?.elementId) {
         state.elementIdsBeingDeleted[action.payload.elementId] = false;
       }
     });
-    // Creating 
+    // Creating
     builder.addCase(createElement.pending, (state) => {
       state.creatingElementStatus = RequestStatus.Ongoing;
     });
@@ -75,7 +76,7 @@ export const elementsCreateAsyncThunkFetchSlice = createSlice({
   },
 });
 
-export const elementsCreateAsyncThunkFetchingReducer = elementsCreateAsyncThunkFetchSlice.reducer;
+export const elementsWithCreateAsyncThunksReducer = elementsWithCreateAsyncThunksSlice.reducer;
 
 /* Thunks */
 // This would probably be defined in global store file like `hooks.ts`
@@ -99,7 +100,7 @@ export const fetchElements = createAppAsyncThunk(
   },
   {
     condition: (_, { getState }) => {
-      const fetchingElementsStatus = getState().elementsCreateAsyncThunkFetching.fetchingElementsStatus;
+      const fetchingElementsStatus = getState().elementsWithCreateAsyncThunk.fetchingElementsStatus;
       if (fetchingElementsStatus === RequestStatus.Ongoing) {
         return false;
       }
@@ -124,7 +125,7 @@ export const deleteElement = createAppAsyncThunk<
   },
   {
     condition: (elementId, { getState }) => {
-      const elementIdsBeingDeleted = getState().elementsCreateAsyncThunkFetching.elementIdsBeingDeleted;
+      const elementIdsBeingDeleted = getState().elementsWithCreateAsyncThunk.elementIdsBeingDeleted;
       if (elementIdsBeingDeleted[elementId] === true) {
         return false;
       }
@@ -144,7 +145,7 @@ export const createElement = createAppAsyncThunk(
   },
   {
     condition: (_, { getState }) => {
-      const creatingElementStatus = getState().elementsCreateAsyncThunkFetching.creatingElementStatus;
+      const creatingElementStatus = getState().elementsWithCreateAsyncThunk.creatingElementStatus;
       if (creatingElementStatus === RequestStatus.Ongoing) {
         return false;
       }
