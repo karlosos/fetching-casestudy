@@ -67,7 +67,7 @@ setupMocks(); // Comment out to disable mocks
 ## Updating strategy 🔝
 
 ```
-ncu --interactive --format group
+npx npm-check-updates --interactive --format group
 ```
 
 ## Roadmap 🛣️🎯

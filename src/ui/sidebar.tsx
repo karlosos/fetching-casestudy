@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { createStyles, Navbar, Group, Code, getStylesRef, rem } from '@mantine/core';
-import { TablerIconsProps, IconBrandGithub } from '@tabler/icons-react';
+import { IconBrandGithub, IconProps } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
@@ -85,7 +85,7 @@ const useStyles = createStyles((theme) => ({
 type SidebarItem = {
   link: string;
   label: string;
-  icon: (props: TablerIconsProps) => JSX.Element;
+  icon: (props: Omit<IconProps, 'ref'>) => ReactNode;
 };
 
 type Props = {
