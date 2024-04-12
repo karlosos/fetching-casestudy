@@ -1,12 +1,24 @@
-# 🎆 FFTC Project 
+<div align="center">
 
-> Frontend Fetching Techniques Comparison
+# 🎆 Frontend Fetching Techniques
+
+Frontend Fetching Techniques Comparison
+
+[![React](https://img.shields.io/badge/code-react-blueviolet.svg?style=flat-square&logo=react&color=a8dcec&logoColor=white)](https://react.dev/)
+[![State](https://img.shields.io/badge/state-redux-blueviolet.svg?style=flat-square&logo=redux&color=a8dcec&logoColor=white)](https://redux.js.org/)
+[![Typescript](https://img.shields.io/badge/language-typescript-blueviolet.svg?style=flat-square&logo=typescript&color=a8dcec&logoColor=white)](https://www.typescriptlang.org/docs/handbook/intro.html)
+[![Prettier](https://img.shields.io/badge/formatting-prettier-blueviolet.svg?style=flat-square&logo=prettier&color=a8dcec&logoColor=white)](https://prettier.io/docs/en/index.html)
+[![RTL](https://img.shields.io/badge/testing-testing_library-blueviolet.svg?style=flat-square&logo=testinglibrary&color=a8dcec&logoColor=white)](https://testing-library.com/docs/react-testing-library/intro/)
+
+</div>
+
+![Architecture overview](./public/app.png)
 
 ## About 📝
 
-This projects was meant to be a case study for comparing various fetching techniques on the frontend. It was also an opportunity to check `nx`, `express-zod-api` and `drizzle` along the way. 
+This projects was meant to be a case study for comparing various fetching techniques on the frontend.
 
-On the frontend we have the same view implemented using different techniques. 
+On the frontend we have the same view implemented using different techniques.
 
 ### Frontend 🪟
 
@@ -22,38 +34,22 @@ There is `api` module that defines all consumed endpoints. It is anti-corruption
 
 For development pursposes `msw` is used so the frontend could have been developed without backend.
 
-### Backend 🧱
-
-Backend is written in express.js using [express-zod-api](https://github.com/RobinTail/express-zod-api) and inspired by [Minimal-Express-Zod-Api-Boilerplate](https://github.com/TheNaubit/Minimal-Express-Zod-Api-Boilerplate). It is using `sqlite` db with `drizzle` and `drizzle-kit`. 
-
 ## Development 👨‍💻
 
-### E2E Development ⛓️
+- run `npm run dev` to run frontend app
+- run `npm run test` to run tests
+- run `npm run lint` to run linter
+- run `npm run typecheck` to run typechecking
 
-- run `npm run dev` to run whole monorepo (frontend + backend)
-- `npx nx graph --watch` to see a diagram of the dependencies of the project
+### Upgrading packages 🆙
 
-### Frontend development 🪟
+### Mocks 🐾
 
-- run `npx nx serve frontend` to run the dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-  - frontend is configured to use mocks (with msw) by default. See `apps/frontend/src/mocks.ts`
-- run `npx nx test frontend` to run frontend tests
-- run `npm run format` to format code
+Disable mocks by commenting this line in `main.tsx`:
 
-### Backend development 🧱
-
-- Swagger (OpenAPI) yaml can be found in `apps/backend/docs/api.yaml` 
-- run `npx nx serve backend` to run the backend server.
-- run `npx nx run backend:db:clear` to prepare clean, seeded database
-- run `npx nx run backend:db:push` to push schema changes to `sqlite`
-- run `npx nx run backend:db:generate` to generate migration file
-- run `npx nx run backend:db:studio` to launch db studio
-- run `npx nx run backend:docs:generate` to generate api docs into `./docs/api.yaml` directory
-- run `npm run format` to format code
-
-## Resources 📚️
-
-- Visit the [Nx Documentation](https://nx.dev) to learn more about Nx.
+```
+setupMocks(); // Comment out to disable mocks
+```
 
 ## Notes 📋️
 
@@ -64,14 +60,15 @@ Backend is written in express.js using [express-zod-api](https://github.com/Robi
   - Edit `getElements` mock to see the problem.
 - The `elementIdsBeingDeleted` object could be merged with regular `data` object so that each `element` has `isBeingDeleted: boolean` value.
 - Problem with api that when there is some error (even on client side) then there will be `Internal Server Error` error. Hard to debug. For example if there is an error on mapper side. Investigate if `zod` would solve the issue.
-- RTK Query is hard with all those types. It feels overcomplicated and overengineering. A lot of fighting with typescript here, e.g. defining custom `queryFn`. 
+- RTK Query is hard with all those types. It feels overcomplicated and overengineering. A lot of fighting with typescript here, e.g. defining custom `queryFn`.
+- Initially this was a big Nx monorepo. I've realized that my grug brain is not capable to maintaining it. There was no reason to keep complexity. Not it is a simple vite app.
+  - Used vite and not cra as there will be problem with migrating msw to v2 for jest (and cra in general). I guess it's over for cra.
 
 ## Updating strategy 🔝
 
-- Upgrade nx with `npx nx migrate latest` and then `npx nx migrate --run-migrations`
-- Get list of outdated packages with `npm outdated`
-- Upgrade manualy packages with `npm install package@version`
-- Format code changes with `npm run format`
+```
+ncu --interactive --format group
+```
 
 ## Roadmap 🛣️🎯
 
@@ -124,15 +121,12 @@ Backend is written in express.js using [express-zod-api](https://github.com/Robi
 - [x] add total count to the table views
 - [ ] investigate usage od `zod` in api
 - [x] investigate usage of `redux-hook-form` on update/create forms
-- [ ] implement simple backend api with sqlite db
+- [ ] implement simple backend api with sqlite db (separate repo)
   - [ ] get elements endpoint
-  - [ ] create element endpoint 
+  - [ ] create element endpoint
   - [ ] delete clement endpoint
   - [ ] custom response
   - [ ] configure logger
   - [ ] generate api docs
-- [ ] create ui component library
 - [ ] investigate integration tests with cypress/playwright in addition to rtl
-  - [ ] i have removed cypress-e2e tests in a7743b6. revert this change
 - [ ] toast notifications with https://react-hot-toast.com/
-- [ ] automatic updates with dependabot
