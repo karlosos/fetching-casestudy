@@ -9,14 +9,17 @@ export const RtkQueryFnCreateForm = () => {
     reset,
     formState: { errors },
   } = useForm<CreateElementRequest>();
-  const [createElement, {isLoading: isPending}] = useCreateElementMutation();
+  const [createElement, { isLoading: isPending }] = useCreateElementMutation();
 
   const onSubmit: SubmitHandler<CreateElementRequest> = async (data) => {
-    createElement(data).unwrap().then(() => {
+    createElement(data)
+      .unwrap()
+      .then(() => {
         reset();
-    }).catch(() => {
-      console.log('>> something bad happened during creation of the element')
-    });
+      })
+      .catch(() => {
+        console.log('>> something bad happened during creation of the element');
+      });
   };
 
   return (

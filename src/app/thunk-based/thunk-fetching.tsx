@@ -12,7 +12,7 @@ export const ThunkFetching = () => {
       fetchElements({
         size: 50,
         startIndex: 0,
-      })
+      }),
     );
   }, [dispatch]);
 
@@ -21,16 +21,14 @@ export const ThunkFetching = () => {
       fetchElements({
         size: 50,
         startIndex: 0,
-      })
+      }),
     );
   };
 
   const data = useAppSelector((state: RootState) => state.elementsWithThunks.elements);
   const fetchingStatus = useAppSelector((state: RootState) => state.elementsWithThunks.fetchingElementsStatus);
   const error = useAppSelector((state: RootState) => state.elementsWithThunks.fetchingElementsError);
-  const elementIdsBeingDeleted = useAppSelector(
-    (state: RootState) => state.elementsWithThunks.elementIdsBeingDeleted
-  );
+  const elementIdsBeingDeleted = useAppSelector((state: RootState) => state.elementsWithThunks.elementIdsBeingDeleted);
 
   if (error && fetchingStatus !== RequestStatus.Ongoing) {
     return (

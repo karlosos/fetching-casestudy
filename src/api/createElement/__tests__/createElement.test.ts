@@ -55,7 +55,7 @@ describe('createElement Endpoint', () => {
         message: 'Database problem',
         errorCode: 0,
         statusCode: 500,
-      })
+      }),
     );
   });
 });

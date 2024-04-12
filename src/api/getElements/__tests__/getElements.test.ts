@@ -43,7 +43,7 @@ describe('getElements Endpoint', () => {
         message: 'Database problem',
         errorCode: 0,
         statusCode: 500,
-      })
+      }),
     );
   });
 });

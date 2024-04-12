@@ -1,3 +1,3 @@
 export type DeleteElementRequest = {
-    elementId: string;
+  elementId: string;
 };

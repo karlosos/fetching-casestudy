@@ -1,4 +1,4 @@
-import { Element } from "../apiTypes";
+import { Element } from '../apiTypes';
 
 export type CreateElementRequest = Omit<Element, 'id'>;
 

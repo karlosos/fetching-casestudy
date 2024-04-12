@@ -12,7 +12,7 @@ import { deleteElementEnded, deleteElementStarted } from './slice';
 // This variable could be named as a
 // ccsApi, [service]Api when having multiple services
 // when having one api then just `api`
-// 
+//
 // Should have defined `jwt` for token too as this one is
 // not using axios module.
 export const rtkQueryApi = createApi({
@@ -37,7 +37,7 @@ export const rtkQueryApi = createApi({
           dispatch(
             rtkQueryApi.util.updateQueryData('getElements', undefined, (draft) => {
               draft.elements = draft.elements.filter((element) => element.id !== elementId);
-            })
+            }),
           );
           dispatch(deleteElementEnded(elementId));
         } catch {
@@ -52,7 +52,7 @@ export const rtkQueryApi = createApi({
         body: mapRequest(element),
       }),
       invalidatesTags: ['Elements'],
-    })
+    }),
   }),
 });
 

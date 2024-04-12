@@ -18,7 +18,7 @@ export const getElementsBrowserMockHandler = rest.get<
       ctx.json({
         errorMessage: 'Error message from the backend',
         internalErrCode: 89392,
-      })
+      }),
     );
   }
 
@@ -57,7 +57,7 @@ export const getElementsResponseHandler = rest.get<DefaultBodyType, PathParams, 
       },
     };
     return res(ctx.status(200), ctx.json(response));
-  }
+  },
 );
 
 export const getElementsErrorHandler = rest.get(createApiUrl(GET_ELEMENTS_URL), (_req, res, ctx) => {
@@ -65,7 +65,7 @@ export const getElementsErrorHandler = rest.get(createApiUrl(GET_ELEMENTS_URL), 
     ctx.status(500),
     ctx.json({
       errorMessage: 'Database problem',
-    })
+    }),
   );
 });
 

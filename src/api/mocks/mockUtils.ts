@@ -8,4 +8,4 @@ export const shouldThrowError = ({ probability = 0.25 } = {}) => {
     return true;
   }
   return false;
-}
+};

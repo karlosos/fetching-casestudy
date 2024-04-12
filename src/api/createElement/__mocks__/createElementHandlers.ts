@@ -21,7 +21,7 @@ export const createElementBrowserMockHandler = rest.post<
       ctx.json({
         errorMessage: 'Error message from the backend',
         internalErrCode: 89392,
-      })
+      }),
     );
   }
 
@@ -68,6 +68,6 @@ export const createElementErrorHandler = rest.post(createApiUrl(CREATE_ELEMENT_U
     ctx.status(500),
     ctx.json({
       errorMessage: 'Database problem',
-    })
+    }),
   );
 });

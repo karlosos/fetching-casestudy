@@ -17,12 +17,12 @@ export const AsyncThunkFetching = () => {
 
   const data = useAppSelector((state: RootState) => state.elementsWithCreateAsyncThunk.elements);
   const fetchingStatus = useAppSelector(
-    (state: RootState) => state.elementsWithCreateAsyncThunk.fetchingElementsStatus
+    (state: RootState) => state.elementsWithCreateAsyncThunk.fetchingElementsStatus,
   );
   const error = useAppSelector((state: RootState) => state.elementsWithCreateAsyncThunk.fetchingElementsError);
 
   const elementIdsBeingDeleted = useAppSelector(
-    (state: RootState) => state.elementsWithCreateAsyncThunk.elementIdsBeingDeleted
+    (state: RootState) => state.elementsWithCreateAsyncThunk.elementIdsBeingDeleted,
   );
 
   if (error && fetchingStatus === RequestStatus.Failed) {

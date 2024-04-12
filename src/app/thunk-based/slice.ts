@@ -138,7 +138,7 @@ export const createElement =
         fetchElements({
           size: 50,
           startIndex: 0,
-        })
+        }),
       );
 
       return {
@@ -152,7 +152,7 @@ export const createElement =
         fetchElements({
           size: 50,
           startIndex: 0,
-        })
+        }),
       );
       return {
         status: RequestStatus.Failed,

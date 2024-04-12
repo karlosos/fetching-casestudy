@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getElements as getElementsApi, deleteElement as deleteElementApi, createElement as createElementApi } from '../../api';
+import {
+  getElements as getElementsApi,
+  deleteElement as deleteElementApi,
+  createElement as createElementApi,
+} from '../../api';
 import { ApiError, ApiErrorSerialized, serializeApiError } from '../../api/apiError';
 import { CreateElementRequest, Element, GetElementsRequest } from '../../api/apiTypes';
 import { AppDispatch, RootState } from '../store';
@@ -105,7 +109,7 @@ export const fetchElements = createAppAsyncThunk(
         return false;
       }
     },
-  }
+  },
 );
 
 export const deleteElement = createAppAsyncThunk<
@@ -130,7 +134,7 @@ export const deleteElement = createAppAsyncThunk<
         return false;
       }
     },
-  }
+  },
 );
 
 export const createElement = createAppAsyncThunk(
@@ -150,5 +154,5 @@ export const createElement = createAppAsyncThunk(
         return false;
       }
     },
-  }
+  },
 );

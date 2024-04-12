@@ -1,5 +1,9 @@
 import { server, waitForRequest } from '../../mocks/mockServer';
-import { deleteElementServerErrorHandler, deleteElementResponseHandler, deleteElementNotFoundResponseHandler } from '../__mocks__/deleteElementHandlers';
+import {
+  deleteElementServerErrorHandler,
+  deleteElementResponseHandler,
+  deleteElementNotFoundResponseHandler,
+} from '../__mocks__/deleteElementHandlers';
 import { deleteElement } from '../deleteElement';
 import { DeleteElementRequest } from '../apiTypes';
 import { ApiError } from '../../apiError';
@@ -41,7 +45,7 @@ describe('deleteElement Endpoint', () => {
         message: 'Error: Internal Server Error.',
         errorCode: 0,
         statusCode: 404,
-      })
+      }),
     );
   });
 
@@ -62,7 +66,7 @@ describe('deleteElement Endpoint', () => {
         message: 'Database problem',
         errorCode: 0,
         statusCode: 500,
-      })
+      }),
     );
   });
 });

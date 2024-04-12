@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 export const SwrFetching = () => {
   const { isLoading, error, data, isValidating, mutate } = useSWR('elements', () =>
-    getElements({ size: 50, startIndex: 0 })
+    getElements({ size: 50, startIndex: 0 }),
   );
 
   const [elementIdsBeingDeleted, setElementIdsBeingDeleted] = useState<{ [id: string]: boolean }>({});
@@ -27,7 +27,7 @@ export const SwrFetching = () => {
           totalElements: data?.totalElements - 1,
           elements: data?.elements.filter((element) => element.id !== elementToBeRemoved.id),
         },
-        { revalidate: false }
+        { revalidate: false },
       );
     } catch (e) {
       console.log(">> couldn't delete", elementToBeRemoved);
