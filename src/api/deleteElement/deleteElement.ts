@@ -10,7 +10,7 @@ export const deleteElement = async (request: DeleteElementRequest): Promise<void
   try {
     await deleteElementApi(mappedRequest);
   } catch (e) {
-    const error = e as AxiosError<any>;
+    const error = e as AxiosError;
     return throwApiError(error);
   }
 };

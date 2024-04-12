@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { PathParams, rest } from 'msw';
 import { ErrorResponse } from '../../apiError';
 import { createApiUrl } from '../../createApi';
 import { elementsMock } from '../../getElements/__mocks__/getElementsHandlers';
@@ -11,11 +11,11 @@ let currentId = 1000;
 
 export const createElementBrowserMockHandler = rest.post<
   CreateElementRequestApi,
-  any,
+  PathParams,
   CreateElementResponseApi | ErrorResponse
 >(createApiUrl(CREATE_ELEMENT_URL), async (req, res, ctx) => {
   await simulateDelay(500, 1000);
-  if (shouldThrowError({probability: 0.2})) {
+  if (shouldThrowError({ probability: 0.2 })) {
     return res(
       ctx.status(429),
       ctx.json({
@@ -45,7 +45,7 @@ export const createElementBrowserMockHandler = rest.post<
 
 export const createElementResponseHandler = rest.post<
   CreateElementRequestApi,
-  any,
+  PathParams,
   CreateElementResponseApi | ErrorResponse
 >(createApiUrl(CREATE_ELEMENT_URL), async (req, res, ctx) => {
   const { dn, deviceType, options } = await req.json();

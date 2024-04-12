@@ -21,7 +21,7 @@ export const rtkQueryFnApi = createApi({
       providesTags: ['Elements'],
     }),
     deleteElement: build.mutation<void, string>({
-      queryFn: async (elementId, { dispatch }) => {
+      queryFn: async (elementId) => {
         try {
           await deleteElement({ elementId: elementId });
           return { data: undefined };
@@ -45,7 +45,7 @@ export const rtkQueryFnApi = createApi({
       },
     }),
     createElement: build.mutation<void, CreateElementRequest>({
-      queryFn: async (element, { dispatch }) => {
+      queryFn: async (element) => {
         try {
           await createElement(element);
           return { data: undefined };

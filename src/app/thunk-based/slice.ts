@@ -99,7 +99,7 @@ export const fetchElements =
       // TODO: create single entry point for calling api endpoints
       const data = await getElementsApi(request);
       dispatch(fetchingElementsSuccess(data));
-    } catch (e: any) {
+    } catch (e) {
       const error = e as ApiError;
       dispatch(fetchingElementsFailure(serializeApiError(error)));
     }
@@ -126,7 +126,7 @@ export const deleteElement =
 type ReturnThunkApi = Promise<{ status: RequestStatus; error?: string }>;
 
 export const createElement =
-  (element: CreateElementRequest): AppThunk<any, ReturnThunkApi> =>
+  (element: CreateElementRequest): AppThunk<CreateElementRequest, ReturnThunkApi> =>
   async (dispatch, getState): ReturnThunkApi => {
     if (getState().elementsThunkFetching.creatingElementStatus === RequestStatus.Ongoing) {
       return { status: RequestStatus.Ongoing };

@@ -12,7 +12,7 @@ export const getElements = async (request: GetElementsRequest): Promise<GetEleme
     const response = mapResponse(responseApi);
     return response;
   } catch (e) {
-    const error = e as AxiosError<any>;
+    const error = e as AxiosError;
     return throwApiError(error);
   }
 };

@@ -11,7 +11,7 @@ const useStyles = createStyles((theme) => ({
   version: {
     backgroundColor: theme.fn.lighten(
       theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-      0.1,
+      0.1
     ),
     color: theme.white,
     fontWeight: 700,
@@ -22,7 +22,7 @@ const useStyles = createStyles((theme) => ({
     marginBottom: `calc(${theme.spacing.md} * 1.5)`,
     borderBottom: `${rem(1)} solid ${theme.fn.lighten(
       theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-      0.1,
+      0.1
     )}`,
   },
 
@@ -39,7 +39,7 @@ const useStyles = createStyles((theme) => ({
     marginTop: theme.spacing.md,
     borderTop: `${rem(1)} solid ${theme.fn.lighten(
       theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-      0.1,
+      0.1
     )}`,
   },
 
@@ -57,7 +57,7 @@ const useStyles = createStyles((theme) => ({
     '&:hover': {
       backgroundColor: theme.fn.lighten(
         theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-        0.1,
+        0.1
       ),
     },
   },
@@ -73,7 +73,7 @@ const useStyles = createStyles((theme) => ({
     '&, &:hover': {
       backgroundColor: theme.fn.lighten(
         theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background!,
-        0.15,
+        0.15
       ),
       [`& .${getStylesRef('icon')}`]: {
         opacity: 0.9,
@@ -101,7 +101,7 @@ export function Sidebar({ items }: Props) {
       className={cx(classes.link, { [classes.linkActive]: item.label === active })}
       to={item.link}
       key={item.label}
-      onClick={(event) => {
+      onClick={() => {
         setActive(item.label);
       }}
     >

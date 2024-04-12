@@ -118,7 +118,7 @@ export function ElementsTable({ data, error, isLoading }: ElementsTableProps) {
   return (
     <ScrollArea.Autosize
       mah="calc(100vh - 57px)"
-      styles={(theme) => ({
+      styles={(_theme) => ({
         scrollbar: {
           zIndex: 2,
         },

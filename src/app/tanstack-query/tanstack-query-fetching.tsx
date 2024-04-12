@@ -26,7 +26,7 @@ export const TanstackQueryFetching = () => {
     onError: (_error, variables, _context) => {
       console.log(">> couldn't create", variables);
     },
-    onSettled: (data, error, variables, context) => {
+    onSettled: (_data, _error, variables, _context) => {
       setElementIdsBeingDeleted((state) => ({ ...state, [variables.elementId]: false }));
     },
   });

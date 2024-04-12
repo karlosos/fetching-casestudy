@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { DefaultBodyType, PathParams, rest } from 'msw';
 import { ErrorResponse } from '../../apiError';
 import { createApiUrl } from '../../createApi';
 import { shouldThrowError, simulateDelay } from '../../mockUtils';
@@ -6,39 +6,40 @@ import { GET_ELEMENTS_URL } from '../getElementsApi';
 
 import { GetElementsResponseApi } from '../serverApiTypes';
 
-export const getElementsBrowserMockHandler = rest.get<any, any, GetElementsResponseApi | ErrorResponse>(
-  createApiUrl(GET_ELEMENTS_URL),
-  async (req, res, ctx) => {
-    await simulateDelay(500, 1000);
-    if (shouldThrowError({probability: 0.2})) {
-      return res(
-        ctx.status(429),
-        ctx.json({
-          errorMessage: 'Error message from the backend',
-          internalErrCode: 89392,
-        })
-      );
-    }
-
-    const limit = req.url.searchParams.get('limit');
-    const page = req.url.searchParams.get('page');
-    const elements = elementsMock;
-
-    const response: GetElementsResponseApi = {
-      elements: elements,
-      pageInfo: {
-        limit: parseInt(limit!),
-        page: parseInt(page!),
-        numberOfElements: elements.length,
-        totalElements: elements.length,
-        totalPages: 1,
-      },
-    };
-    return res(ctx.status(200), ctx.json(response));
+export const getElementsBrowserMockHandler = rest.get<
+  DefaultBodyType,
+  PathParams,
+  GetElementsResponseApi | ErrorResponse
+>(createApiUrl(GET_ELEMENTS_URL), async (req, res, ctx) => {
+  await simulateDelay(500, 1000);
+  if (shouldThrowError({ probability: 0.2 })) {
+    return res(
+      ctx.status(429),
+      ctx.json({
+        errorMessage: 'Error message from the backend',
+        internalErrCode: 89392,
+      })
+    );
   }
-);
 
-export const getElementsResponseHandler = rest.get<any, any, GetElementsResponseApi>(
+  const limit = req.url.searchParams.get('limit');
+  const page = req.url.searchParams.get('page');
+  const elements = elementsMock;
+
+  const response: GetElementsResponseApi = {
+    elements: elements,
+    pageInfo: {
+      limit: parseInt(limit!),
+      page: parseInt(page!),
+      numberOfElements: elements.length,
+      totalElements: elements.length,
+      totalPages: 1,
+    },
+  };
+  return res(ctx.status(200), ctx.json(response));
+});
+
+export const getElementsResponseHandler = rest.get<DefaultBodyType, PathParams, GetElementsResponseApi>(
   createApiUrl(GET_ELEMENTS_URL),
   async (req, res, ctx) => {
     const limit = req.url.searchParams.get('limit');

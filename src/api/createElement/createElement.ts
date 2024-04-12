@@ -12,7 +12,7 @@ export const createElement = async (request: CreateElementRequest): Promise<Crea
     const mappedResponse = mapResponse(response);
     return mappedResponse;
   } catch (e) {
-    const error = e as AxiosError<any>;
+    const error = e as AxiosError;
     return throwApiError(error);
   }
 };

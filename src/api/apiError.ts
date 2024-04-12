@@ -38,7 +38,7 @@ export type ApiErrorSerialized = {
   errorCode: number | string;
   rootCause?: string;
   statusCode: number;
-}
+};
 
 export const serializeApiError = (error: ApiError) => {
   const apiErrorSerialized: ApiErrorSerialized = {
@@ -46,10 +46,11 @@ export const serializeApiError = (error: ApiError) => {
     errorCode: error.errorCode,
     rootCause: error.rootCause,
     statusCode: error.statusCode,
-  }
-  return apiErrorSerialized; 
-}
+  };
+  return apiErrorSerialized;
+};
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const throwApiError = (error: AxiosError<any>) => {
   const statusCode = error.response?.status || 500;
   const errorCode = error.response?.data?.internalErrCode || 500;
@@ -59,6 +60,6 @@ export const throwApiError = (error: AxiosError<any>) => {
 };
 
 export type ErrorResponse = {
-  internalErrCode?: number,
-  errorMessage?: string,
-}
+  internalErrCode?: number;
+  errorMessage?: string;
+};
