@@ -1,7 +1,7 @@
 import { DefaultBodyType, PathParams, rest } from 'msw';
 import { ErrorResponse } from '../../apiError';
 import { createApiUrl } from '../../createApi';
-import { shouldThrowError, simulateDelay } from '../../mockUtils';
+import { shouldThrowError, simulateDelay } from '../../mocks/mockUtils';
 import { GET_ELEMENTS_URL } from '../getElementsApi';
 
 import { GetElementsResponseApi } from '../serverApiTypes';

@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 import { createApiUrl } from '../../createApi';
-import { shouldThrowError, simulateDelay } from '../../mockUtils';
+import { shouldThrowError, simulateDelay } from '../../mocks/mockUtils';
 import { DELETE_ELEMENT_URL } from '../deleteElementApi';
 import { elementsMock } from '../../getElements/__mocks__/getElementsHandlers';
 

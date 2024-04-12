@@ -1,4 +1,4 @@
-import { server, waitForRequest } from '../../mockServer';
+import { server, waitForRequest } from '../../mocks/mockServer';
 import { getElementsErrorHandler, getElementsResponseHandler } from '../__mocks__/getElementsHandlers';
 import { getElements } from '../getElements';
 import { GetElementsRequest } from '../apiTypes';

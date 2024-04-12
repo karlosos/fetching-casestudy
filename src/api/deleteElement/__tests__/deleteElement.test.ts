@@ -1,4 +1,4 @@
-import { server, waitForRequest } from '../../mockServer';
+import { server, waitForRequest } from '../../mocks/mockServer';
 import { deleteElementServerErrorHandler, deleteElementResponseHandler, deleteElementNotFoundResponseHandler } from '../__mocks__/deleteElementHandlers';
 import { deleteElement } from '../deleteElement';
 import { DeleteElementRequest } from '../apiTypes';

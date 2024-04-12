@@ -2,7 +2,7 @@ import { PathParams, rest } from 'msw';
 import { ErrorResponse } from '../../apiError';
 import { createApiUrl } from '../../createApi';
 import { elementsMock } from '../../getElements/__mocks__/getElementsHandlers';
-import { shouldThrowError, simulateDelay } from '../../mockUtils';
+import { shouldThrowError, simulateDelay } from '../../mocks/mockUtils';
 import { CREATE_ELEMENT_URL } from '../createElementApi';
 
 import { CreateElementRequestApi, CreateElementResponseApi } from '../serverApiTypes';
